@@ -1,0 +1,47 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.12.+'
+    }
+}
+apply plugin: 'android-library'
+android {
+    sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+            java.srcDirs = ['src']
+            resources.srcDirs = ['src']
+            aidl.srcDirs = ['src']
+            renderscript.srcDirs = ['src']
+            res.srcDirs = ['res']
+            assets.srcDirs = ['assets']
+        }
+
+        androidTest.setRoot('tests')
+    }
+
+
+        dependencies {
+        compile 'com.android.support:appcompat-v7:19.+'
+        compile fileTree(dir: 'libs', include: '*.jar')
+            compile project(':anthracite-clients')
+        }
+
+
+    compileSdkVersion 19
+    buildToolsVersion '20.0.0'
+    defaultConfig {}
+    productFlavors {
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+}
+
+dependencies {
+}
