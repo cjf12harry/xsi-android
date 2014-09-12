@@ -4,5 +4,6 @@
     <item android:id="@+id/menu_close"
         android:title="@string/menu_close"
         robot:showAsAction="always"
+        android:showAsAction="always"
         android:icon="@drawable/ic_action_cancel" />
 </menu>
