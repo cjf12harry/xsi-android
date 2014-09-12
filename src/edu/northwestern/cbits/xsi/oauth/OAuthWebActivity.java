@@ -151,8 +151,8 @@ public class OAuthWebActivity extends ActionBarActivity
 									HttpPost httpPost = new HttpPost(newUrl);
 
 									List<NameValuePair> pairs = new ArrayList<NameValuePair>();
-									pairs.add(new BasicNameValuePair("client_id", GitHubApi.CONSUMER_KEY));
-									pairs.add(new BasicNameValuePair("client_secret", GitHubApi.CONSUMER_SECRET));
+									pairs.add(new BasicNameValuePair("client_id", Keystore.get(GitHubApi.CONSUMER_KEY)));
+									pairs.add(new BasicNameValuePair("client_secret", Keystore.get(GitHubApi.CONSUMER_SECRET)));
 									pairs.add(new BasicNameValuePair("code", code));
 									HttpEntity entity = new UrlEncodedFormEntity(pairs, HTTP.US_ASCII);
 
@@ -228,8 +228,8 @@ public class OAuthWebActivity extends ActionBarActivity
 									HttpPost httpPost = new HttpPost(newUrl);
 
 									List<NameValuePair> pairs = new ArrayList<NameValuePair>();
-									pairs.add(new BasicNameValuePair("client_id", JawboneApi.CONSUMER_KEY));
-									pairs.add(new BasicNameValuePair("client_secret", JawboneApi.CONSUMER_SECRET));
+									pairs.add(new BasicNameValuePair("client_id", Keystore.get(JawboneApi.CONSUMER_KEY)));
+									pairs.add(new BasicNameValuePair("client_secret", Keystore.get(JawboneApi.CONSUMER_SECRET)));
 									pairs.add(new BasicNameValuePair("grant_type", "authorization_code"));
 									pairs.add(new BasicNameValuePair("code", code));
 									HttpEntity entity = new UrlEncodedFormEntity(pairs, HTTP.US_ASCII);

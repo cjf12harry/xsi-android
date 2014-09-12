@@ -31,8 +31,9 @@ import android.net.http.AndroidHttpClient;
 
 public class JawboneApi extends DefaultApi20 
 {
-	public static final String CONSUMER_KEY = "fd6P6eL5d9g";
-	public static final String CONSUMER_SECRET = "1a7357e886f0b42c4f2fc611ec91f25454e4c67a";
+	public static final String CONSUMER_KEY = "jawbone_consumer_key";
+	public static final String CONSUMER_SECRET = "jawbone_consumer_secret";
+	public static final String USER_TOKEN = "jawbone_user_token";
 
 	public String getAccessTokenEndpoint() 
 	{
@@ -42,10 +43,11 @@ public class JawboneApi extends DefaultApi20
 	@SuppressWarnings("deprecation")
 	public String getAuthorizationUrl(OAuthConfig arg0) 
 	{
-		return "https://jawbone.com/auth/oauth2/auth?response_type=code&client_id=" +  JawboneApi.CONSUMER_KEY + "&scope=move_read%20basic_read&redirect_uri=" + URLEncoder.encode("https://tech.cbits.northwestern.edu/oauth/jawbone");
+		return "https://jawbone.com/auth/oauth2/auth?response_type=code&client_id=" +  Keystore.get(JawboneApi.CONSUMER_KEY) + 
+			   "&scope=move_read%20basic_read&redirect_uri=" + URLEncoder.encode("https://tech.cbits.northwestern.edu/oauth/jawbone");
 	}
 	
-	public static JSONObject fetch(Context context, String token, Uri uri, String userAgent)
+	public static JSONObject fetch(Context context, Uri uri, String userAgent)
 	{
 		AndroidHttpClient androidClient = AndroidHttpClient.newInstance(userAgent, context);
 		
@@ -67,7 +69,7 @@ public class JawboneApi extends DefaultApi20
 		HttpsURLConnection.setDefaultHostnameVerifier(hostnameVerifier);
 		
 		HttpGet httpGet = new HttpGet("https://jawbone.com/nudge/api/v.1.1/users/@me/goals");
-		httpGet.addHeader("Authorization", "Bearer " + token);
+		httpGet.addHeader("Authorization", "Bearer " + Keystore.get(JawboneApi.USER_TOKEN));
 		httpGet.addHeader("Accept", "application/json");
 		httpGet.addHeader("X-Target-URI", "https://jawbone.com");
 		httpGet.addHeader("X-HostCommonName", "jawbone.com");
@@ -79,8 +81,6 @@ public class JawboneApi extends DefaultApi20
 			HttpEntity httpEntity = response.getEntity();
 
 			String result = EntityUtils.toString(httpEntity);
-			
-			
 			
 			return new JSONObject(result);		
 		} 

@@ -14,8 +14,10 @@ import android.net.Uri;
 
 public class FitbitApi extends DefaultApi10a 
 {
-	public static final String CONSUMER_KEY = "942cc901ff16414a81a599668a1987d6";
-	public static final String CONSUMER_SECRET = "8182965179ef4494ba6294ff77602b3c";
+	public static final String CONSUMER_KEY = "fitbit_consumer_key";
+	public static final String CONSUMER_SECRET = "fitbit_consumer_secret";
+	public static final String USER_SECRET = "fitbit_user_secret";
+	public static final String USER_TOKEN = "fitbit_user_token";
 
 	public FitbitApi()
 	{
@@ -37,16 +39,16 @@ public class FitbitApi extends DefaultApi10a
 		return "https://api.fitbit.com/oauth/request_token";
 	}
 	
-	public static JSONObject fetch(String token, String secret, Uri uri)
+	public static JSONObject fetch(Uri uri)
 	{
-		Token accessToken = new Token(token, secret);
+		Token accessToken = new Token(Keystore.get(FitbitApi.USER_TOKEN), Keystore.get(FitbitApi.USER_SECRET));
     	
 		final OAuthRequest request = new OAuthRequest(Verb.GET, uri.toString());
 
     	ServiceBuilder builder = new ServiceBuilder();
     	builder = builder.provider(FitbitApi.class);
-    	builder = builder.apiKey(FitbitApi.CONSUMER_KEY);
-    	builder = builder.apiSecret(FitbitApi.CONSUMER_SECRET);
+    	builder = builder.apiKey(Keystore.get(FitbitApi.CONSUMER_KEY));
+    	builder = builder.apiSecret(Keystore.get(FitbitApi.CONSUMER_SECRET));
 
     	final OAuthService service = builder.build();
 

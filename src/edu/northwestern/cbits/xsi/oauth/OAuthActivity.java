@@ -233,8 +233,8 @@ public class OAuthActivity extends Activity
 	        			if ("fitbit".equals(requester))
 	        			{
 	            			apiClass = FitbitApi.class;
-	            			consumerKey = FitbitApi.CONSUMER_KEY;
-	            			consumerSecret = FitbitApi.CONSUMER_SECRET;
+	            			consumerKey = Keystore.get(FitbitApi.CONSUMER_KEY);
+	            			consumerSecret = Keystore.get(FitbitApi.CONSUMER_SECRET);
 	        			}
 	        			/*
 	        			else if ("twitter".equals(requester))

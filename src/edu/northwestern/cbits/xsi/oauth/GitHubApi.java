@@ -15,8 +15,9 @@ import android.net.Uri;
 
 public class GitHubApi extends DefaultApi20 
 {
-	public static final String CONSUMER_KEY = "c523b93bbf14cea549a0";
-	public static final String CONSUMER_SECRET = "f58db5af03d2ef3c18c81edca1a983ea148b2f47";
+	public static final String CONSUMER_KEY = "github_consumer_key";
+	public static final String CONSUMER_SECRET = "github_consumer_secret";
+	public static final String USER_TOKEN = "github_user_token";
 
 	public String getAccessTokenEndpoint() 
 	{
@@ -25,14 +26,14 @@ public class GitHubApi extends DefaultApi20
 
 	public String getAuthorizationUrl(OAuthConfig arg0) 
 	{
-		return "https://github.com/login/oauth/authorize?client_id=" +  GitHubApi.CONSUMER_KEY + "&scope=repo:status";
+		return "https://github.com/login/oauth/authorize?client_id=" + Keystore.get(GitHubApi.CONSUMER_KEY) + "&scope=repo:status";
 	}
 	
-	public static JSONArray fetchAll(String token, Uri uri)
+	public static JSONArray fetchAll(Uri uri)
 	{
         try 
         {
-        	URL url = new URL(uri.toString() + "?access_token=" + token);
+        	URL url = new URL(uri.toString() + "?access_token=" + Keystore.get(GitHubApi.USER_TOKEN));
 
             BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
 
@@ -61,11 +62,11 @@ public class GitHubApi extends DefaultApi20
 		return null;
 	}
 	
-	public static JSONObject fetch(String token, Uri uri)
+	public static JSONObject fetch(Uri uri)
 	{
         try 
         {
-        	URL url = new URL(uri.toString() + "?access_token=" + token);
+        	URL url = new URL(uri.toString() + "?access_token=" + Keystore.get(GitHubApi.USER_TOKEN));
         	
             BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
 
