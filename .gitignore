@@ -30,3 +30,5 @@ proguard-project.txt
 project.properties
 
 libs/android-support-v4.jar
+
+*.iml
