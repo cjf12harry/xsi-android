@@ -38,7 +38,6 @@ import android.net.Uri;
 import android.net.http.AndroidHttpClient;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -101,8 +100,6 @@ public class OAuthWebActivity extends ActionBarActivity
         		}
         	});
         	
-        	Log.e("XSI", "BUILDING WEB CLIENT");
-        	
         	webView.setWebViewClient(new WebViewClient() 
         	{
         		public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) 
@@ -125,8 +122,6 @@ public class OAuthWebActivity extends ActionBarActivity
 							public void run() 
 							{
 		        				Uri u = Uri.parse(url);
-		        				
-		        				Log.e("XSI", "URL: " + url);
 		        				
 		        				final String code = u.getQueryParameter("code");
 		        				
