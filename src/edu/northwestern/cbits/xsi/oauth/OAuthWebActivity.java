@@ -52,9 +52,9 @@ public class OAuthWebActivity extends ActionBarActivity
 {
 	protected void onCreate(Bundle savedInstanceState)
     {
-        super.onCreate(savedInstanceState);
-
         this.getWindow().requestFeature(Window.FEATURE_PROGRESS);
+
+        super.onCreate(savedInstanceState);
 
         this.setContentView(R.layout.layout_web_activity);
     }
