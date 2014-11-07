@@ -1,6 +1,8 @@
 package edu.northwestern.cbits.xsi.oauth;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 
@@ -20,6 +22,8 @@ import edu.northwestern.cbits.xsi.R;
 import edu.northwestern.cbits.xsi.logging.LogManager;
 
 import android.content.Context;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.util.Log;
 
@@ -219,6 +223,31 @@ public class FoursquareApi extends DefaultApi20
 			LogManager.getInstance(context, "", "").logException(e);
 		}
 		
+        LocationManager locations = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        
+        final Location here = locations.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
+		
+		Collections.sort(places, new Comparator<Place>()
+		{
+			public int compare(Place placeOne, Place placeTwo) 
+			{
+				Location one = new Location(LocationManager.PASSIVE_PROVIDER);
+				one.setLatitude(placeOne.latitude);
+				one.setLongitude(placeOne.longitude);
+
+				Location two = new Location(LocationManager.PASSIVE_PROVIDER);
+				two.setLatitude(placeTwo.latitude);
+				two.setLongitude(placeTwo.longitude);
+
+				if (one.distanceTo(here) > two.distanceTo(here))
+					return 1;
+				else if (one.distanceTo(here) < two.distanceTo(here))
+					return -1;
+				
+				return 0;
+			}
+		});
+
 		return places;
 	}
 
