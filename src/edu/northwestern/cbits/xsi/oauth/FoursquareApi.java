@@ -44,7 +44,11 @@ public class FoursquareApi extends DefaultApi20
 		public String name = null;
 		public Uri imageUri = null;
 		public String id = null;
-		public Uri infoUri = null; 
+		public Uri infoUri = null;
+		
+		public int socialFlags = -1; 
+		public int costFlags = -1; 
+		public int purposeFlags = -1; 
 		
 		public Uri getVenueImage(Context context)
 		{
@@ -186,8 +190,6 @@ public class FoursquareApi extends DefaultApi20
 				
 				if (include)
 				{
-					Log.e("XSI", "VENUE: " + venue.toString(2));
-					
 					JSONObject location = venue.getJSONObject("location");
 
 					Place place = new Place();
@@ -223,7 +225,7 @@ public class FoursquareApi extends DefaultApi20
 			LogManager.getInstance(context, "", "").logException(e);
 		}
 		
-        LocationManager locations = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+/*        LocationManager locations = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         
         final Location here = locations.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
 		
@@ -246,7 +248,7 @@ public class FoursquareApi extends DefaultApi20
 				
 				return 0;
 			}
-		});
+		}); */
 
 		return places;
 	}
