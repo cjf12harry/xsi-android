@@ -1,8 +1,6 @@
 package edu.northwestern.cbits.xsi.oauth;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 
@@ -22,8 +20,6 @@ import edu.northwestern.cbits.xsi.R;
 import edu.northwestern.cbits.xsi.logging.LogManager;
 
 import android.content.Context;
-import android.location.Location;
-import android.location.LocationManager;
 import android.net.Uri;
 import android.util.Log;
 
