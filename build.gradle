@@ -4,7 +4,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.0.0'
+        classpath 'com.android.tools.build:gradle:1.0.0+'
     }
 }
 apply plugin: 'android-library'
@@ -24,13 +24,13 @@ android {
     }
 
     dependencies {
-        compile 'com.android.support:appcompat-v7:19.+'
+        compile 'com.android.support:appcompat-v7:21.+'
         compile fileTree(dir: 'libs', include: '*.jar')
-            compile project(':anthracite-clients')
+        compile project(':anthracite-clients-android')
     }
 
     compileSdkVersion 21
-    buildToolsVersion '21.0.1'
+    buildToolsVersion '21.1.2'
     defaultConfig {}
     productFlavors {
     }
