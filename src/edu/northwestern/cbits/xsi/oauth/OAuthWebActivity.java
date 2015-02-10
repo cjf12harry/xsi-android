@@ -110,7 +110,7 @@ public class OAuthWebActivity extends ActionBarActivity
     			public boolean shouldOverrideUrlLoading (final WebView view, final String url)
         		{
         			boolean oauth = false;
-        			
+
         			if (url.toLowerCase(Locale.getDefault()).startsWith("http://purple.robot.com/oauth"))
         				oauth = true;
         			else if (url.toLowerCase(Locale.getDefault()).startsWith("https://purple.robot.com/oauth"))
@@ -167,9 +167,7 @@ public class OAuthWebActivity extends ActionBarActivity
 									androidClient.close();
 									
 									String redirectUri = "http://tech.cbits.northwestern.edu/oauth/github?" + result;
-									
-									
-									
+
 			        				Intent intent = new Intent(me, OAuthActivity.class);
 			        				intent.setData(Uri.parse(redirectUri));
 			        				intent.putExtras(new Bundle());

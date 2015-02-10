@@ -26,14 +26,19 @@ public class GitHubApi extends DefaultApi20
 
 	public String getAuthorizationUrl(OAuthConfig arg0) 
 	{
-		return "https://github.com/login/oauth/authorize?client_id=" + Keystore.get(GitHubApi.CONSUMER_KEY) + "&scope=repo:status";
+		return "https://github.com/login/oauth/authorize?client_id=" + Keystore.get(GitHubApi.CONSUMER_KEY) + "&scope=repo";
 	}
 	
 	public static JSONArray fetchAll(Uri uri)
 	{
         try 
         {
-        	URL url = new URL(uri.toString() + "?access_token=" + Keystore.get(GitHubApi.USER_TOKEN));
+        	URL url = null;
+
+            if (uri.toString().contains("?"))
+                url = new URL(uri.toString() + "&access_token=" + Keystore.get(GitHubApi.USER_TOKEN));
+            else
+                url = new URL(uri.toString() + "?access_token=" + Keystore.get(GitHubApi.USER_TOKEN));
 
             BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
 

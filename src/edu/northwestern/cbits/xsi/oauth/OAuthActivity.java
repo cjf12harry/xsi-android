@@ -95,8 +95,8 @@ public class OAuthActivity extends Activity
 									DefaultApi20 api = (DefaultApi20) constructor.newInstance();
 									
 									String url = api.getAuthorizationUrl(config);
-									
-									Intent intent = new Intent(me, OAuthWebActivity.class);
+
+                                    Intent intent = new Intent(me, OAuthWebActivity.class);
 									intent.putExtra(OAuthActivity.LOG_URL, logUrl);
 									intent.putExtra(OAuthActivity.HASH_SECRET, hashSecret);
 									
@@ -131,8 +131,8 @@ public class OAuthActivity extends Activity
 								e.commit();
 			
 								String url = service.getAuthorizationUrl(token);
-				    	        
-								Intent intent = new Intent(me, OAuthWebActivity.class);
+
+                                Intent intent = new Intent(me, OAuthWebActivity.class);
 								intent.putExtra(OAuthActivity.LOG_URL, logUrl);
 								intent.putExtra(OAuthActivity.HASH_SECRET, hashSecret);
 

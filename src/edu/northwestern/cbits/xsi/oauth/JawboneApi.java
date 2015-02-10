@@ -68,7 +68,7 @@ public class JawboneApi extends DefaultApi20
 
 		HttpsURLConnection.setDefaultHostnameVerifier(hostnameVerifier);
 		
-		HttpGet httpGet = new HttpGet("https://jawbone.com/nudge/api/v.1.1/users/@me/goals");
+		HttpGet httpGet = new HttpGet(uri.toString());
 		httpGet.addHeader("Authorization", "Bearer " + Keystore.get(JawboneApi.USER_TOKEN));
 		httpGet.addHeader("Accept", "application/json");
 		httpGet.addHeader("X-Target-URI", "https://jawbone.com");
