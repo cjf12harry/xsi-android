@@ -68,6 +68,8 @@ public class OAuthActivity extends Activity
                 api = JawboneApi.class;
             else if ("twitter".equals(requester))
                 api = TwitterApi.SSL.class;
+            else if ("instagram".equals(requester))
+                api = InstagramApi.class;
 
         	final Class apiClass = api;
 
@@ -239,21 +241,21 @@ public class OAuthActivity extends Activity
 	            			consumerKey = Keystore.get(FitbitApi.CONSUMER_KEY);
 	            			consumerSecret = Keystore.get(FitbitApi.CONSUMER_SECRET);
 	        			}
-	        			else if ("twitter".equals(requester))
-	        			{
-	            			apiClass = TwitterApi.SSL.class;
+                        else if ("twitter".equals(requester))
+                        {
+                            apiClass = TwitterApi.SSL.class;
 
                             consumerKey = Keystore.get(edu.northwestern.cbits.xsi.oauth.TwitterApi.CONSUMER_KEY);
                             consumerSecret = Keystore.get(edu.northwestern.cbits.xsi.oauth.TwitterApi.CONSUMER_SECRET);
-	        			}
+                        }
+                        else if ("instagram".equals(requester))
+                        {
+                            apiClass = InstagramApi.class;
+
+                            consumerKey = Keystore.get(edu.northwestern.cbits.xsi.oauth.InstagramApi.CONSUMER_KEY);
+                            consumerSecret = Keystore.get(edu.northwestern.cbits.xsi.oauth.InstagramApi.CONSUMER_SECRET);
+                        }
 	        			/*
-	        			else if ("instagram".equals(requester))
-	        			{
-	            			apiClass = InstagramApi.class;
-	            			consumerKey = InstagramProbe.CONSUMER_KEY;
-	            			consumerSecret = InstagramProbe.CONSUMER_SECRET;
-	            			callback = InstagramProbe.CALLBACK;
-	        			}
 	                	else if ("linkedin".equalsIgnoreCase(requester))
 	                	{
 	            			apiClass = LinkedInApi.class;
