@@ -7,6 +7,7 @@ import java.util.List;
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.builder.api.DefaultApi10a;
 import org.scribe.builder.api.DefaultApi20;
+import org.scribe.builder.api.TwitterApi;
 import org.scribe.exceptions.OAuthConnectionException;
 import org.scribe.exceptions.OAuthException;
 import org.scribe.model.OAuthConfig;
@@ -63,9 +64,11 @@ public class OAuthActivity extends Activity
         		api = FitbitApi.class;
         	else if ("github".equals(requester))
         		api = GitHubApi.class;
-        	else if ("jawbone".equals(requester))
-        		api = JawboneApi.class;
-        	
+            else if ("jawbone".equals(requester))
+                api = JawboneApi.class;
+            else if ("twitter".equals(requester))
+                api = TwitterApi.SSL.class;
+
         	final Class apiClass = api;
 
         	if (apiClass != null)
@@ -236,13 +239,14 @@ public class OAuthActivity extends Activity
 	            			consumerKey = Keystore.get(FitbitApi.CONSUMER_KEY);
 	            			consumerSecret = Keystore.get(FitbitApi.CONSUMER_SECRET);
 	        			}
-	        			/*
 	        			else if ("twitter".equals(requester))
 	        			{
 	            			apiClass = TwitterApi.SSL.class;
-	            			consumerKey = TwitterProbe.CONSUMER_KEY;
-	            			consumerSecret = TwitterProbe.CONSUMER_SECRET;
+
+                            consumerKey = Keystore.get(edu.northwestern.cbits.xsi.oauth.TwitterApi.CONSUMER_KEY);
+                            consumerSecret = Keystore.get(edu.northwestern.cbits.xsi.oauth.TwitterApi.CONSUMER_SECRET);
 	        			}
+	        			/*
 	        			else if ("instagram".equals(requester))
 	        			{
 	            			apiClass = InstagramApi.class;
