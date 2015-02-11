@@ -5,7 +5,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import org.scribe.builder.ServiceBuilder;
-import org.scribe.builder.api.*;
+import org.scribe.builder.api.DefaultApi10a;
+import org.scribe.builder.api.DefaultApi20;
+import org.scribe.builder.api.Foursquare2Api;
 import org.scribe.exceptions.OAuthConnectionException;
 import org.scribe.exceptions.OAuthException;
 import org.scribe.model.OAuthConfig;
@@ -68,6 +70,8 @@ public class OAuthActivity extends Activity
                 api = TwitterApi.SSL.class;
             else if ("instagram".equals(requester))
                 api = InstagramApi.class;
+            else if ("foursquare".equals(requester))
+                api = FoursquareApi.class;
             else if ("linkedin".equals(requester))
                 api = LinkedInApi.class;
 
@@ -233,7 +237,7 @@ public class OAuthActivity extends Activity
 	        			Class apiClass = null;
 	        			String consumerKey = null;
 	        			String consumerSecret = null;
-//	        			String callback = null;
+	        			String callback = null;
 	        			
 	        			if ("fitbit".equals(requester))
 	        			{
@@ -262,16 +266,14 @@ public class OAuthActivity extends Activity
                             consumerKey = Keystore.get(LinkedInApi.CONSUMER_KEY);
                             consumerSecret = Keystore.get(LinkedInApi.CONSUMER_SECRET);
 	                	}
-	        			/*
 	                	else if ("foursquare".equalsIgnoreCase(requester))
 	                	{
 	            			apiClass = Foursquare2Api.class;
-	            			consumerKey = FoursquareProbe.CONSUMER_KEY;
-	            			consumerSecret = FoursquareProbe.CONSUMER_SECRET;
-	            			callback = FoursquareProbe.CALLBACK;
+	            			consumerKey = Keystore.get(FoursquareApi.CONSUMER_KEY);
+                            consumerSecret = Keystore.get(FoursquareApi.CONSUMER_SECRET);
+                            callback = Keystore.get(FoursquareApi.CALLBACK_URL);
 	                	}
-	        			*/
-	        			
+
 	        			if (apiClass != null && consumerKey != null && consumerSecret != null)
 	        			{
 			            	ServiceBuilder builder = new ServiceBuilder();
@@ -279,8 +281,8 @@ public class OAuthActivity extends Activity
 			            	builder = builder.apiKey(consumerKey);
 			            	builder = builder.apiSecret(consumerSecret);
 			            	
-//			            	if (callback != null)
-//			            		builder = builder.callback(callback);
+			            	if (callback != null)
+			            		builder = builder.callback(callback);
 			            	
 			            	final OAuthService service = builder.build();
 	

@@ -8,8 +8,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.scribe.builder.ServiceBuilder;
-import org.scribe.builder.api.DefaultApi20;
-import org.scribe.model.OAuthConfig;
+import org.scribe.builder.api.Foursquare2Api;
 import org.scribe.model.OAuthRequest;
 import org.scribe.model.Response;
 import org.scribe.model.Token;
@@ -21,16 +20,16 @@ import edu.northwestern.cbits.xsi.logging.LogManager;
 
 import android.content.Context;
 import android.net.Uri;
-import android.util.Log;
 
-public class FoursquareApi extends DefaultApi20 
+public class FoursquareApi extends Foursquare2Api
 {
 	public static final String CONSUMER_KEY = "foursquare_consumer_key";
 	public static final String CONSUMER_SECRET = "foursquare_consumer_secret";
 	public static final String USER_SECRET = "foursquare_user_secret";
 	public static final String USER_TOKEN = "foursquare_user_token";
-	
-	private static HashSet<String> _exclude = null;
+    public static final String CALLBACK_URL = "foursquare_callback_url";
+
+    private static HashSet<String> _exclude = null;
 	
 	public static class Place
 	{
@@ -57,16 +56,6 @@ public class FoursquareApi extends DefaultApi20
 		}
 	}
 
-	public String getAccessTokenEndpoint() 
-	{
-		return null;
-	}
-
-	public String getAuthorizationUrl(OAuthConfig arg0) 
-	{
-		return null;
-	}
-	
 	public static JSONObject anonymousFetch(Uri uri)
 	{
 		final OAuthRequest request = new OAuthRequest(Verb.GET, uri.toString());
@@ -85,11 +74,16 @@ public class FoursquareApi extends DefaultApi20
 		return null;
 	}
 
+    public static JSONObject fetch(String url)
+    {
+        return FoursquareApi.fetch(Uri.parse(url));
+    }
+
 	public static JSONObject fetch(Uri uri)
 	{
 		Token accessToken = new Token(Keystore.get(FoursquareApi.USER_TOKEN), Keystore.get(FoursquareApi.USER_SECRET));
     	
-		final OAuthRequest request = new OAuthRequest(Verb.GET, uri.toString());
+		final OAuthRequest request = new OAuthRequest(Verb.GET, uri.toString() + "&oauth_token=" + Keystore.get(FoursquareApi.USER_TOKEN));
 
     	ServiceBuilder builder = new ServiceBuilder();
     	builder = builder.provider(FitbitApi.class);
@@ -102,7 +96,7 @@ public class FoursquareApi extends DefaultApi20
 
 		Response response = request.send();
 
-		try 
+		try
 		{
 			return new JSONObject(response.getBody());
 		} 
@@ -258,8 +252,6 @@ public class FoursquareApi extends DefaultApi20
 		
 		try
 		{
-			Log.e("XSI", "IMAGE JSON: " + response.toString(2));
-			
 			if (response.getJSONObject("response").has("photos"))
 			{
 				JSONObject photos = response.getJSONObject("response").getJSONObject("photos");
