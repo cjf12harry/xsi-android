@@ -5,9 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import org.scribe.builder.ServiceBuilder;
-import org.scribe.builder.api.DefaultApi10a;
-import org.scribe.builder.api.DefaultApi20;
-import org.scribe.builder.api.TwitterApi;
+import org.scribe.builder.api.*;
 import org.scribe.exceptions.OAuthConnectionException;
 import org.scribe.exceptions.OAuthException;
 import org.scribe.model.OAuthConfig;
@@ -70,6 +68,8 @@ public class OAuthActivity extends Activity
                 api = TwitterApi.SSL.class;
             else if ("instagram".equals(requester))
                 api = InstagramApi.class;
+            else if ("linkedin".equals(requester))
+                api = LinkedInApi.class;
 
         	final Class apiClass = api;
 
@@ -255,14 +255,14 @@ public class OAuthActivity extends Activity
                             consumerKey = Keystore.get(edu.northwestern.cbits.xsi.oauth.InstagramApi.CONSUMER_KEY);
                             consumerSecret = Keystore.get(edu.northwestern.cbits.xsi.oauth.InstagramApi.CONSUMER_SECRET);
                         }
-	        			/*
 	                	else if ("linkedin".equalsIgnoreCase(requester))
 	                	{
 	            			apiClass = LinkedInApi.class;
-	            			consumerKey = LinkedInProbe.CONSUMER_KEY;
-	            			consumerSecret = LinkedInProbe.CONSUMER_SECRET;
-	            			callback = LinkedInProbe.CALLBACK;
+
+                            consumerKey = Keystore.get(LinkedInApi.CONSUMER_KEY);
+                            consumerSecret = Keystore.get(LinkedInApi.CONSUMER_SECRET);
 	                	}
+	        			/*
 	                	else if ("foursquare".equalsIgnoreCase(requester))
 	                	{
 	            			apiClass = Foursquare2Api.class;
