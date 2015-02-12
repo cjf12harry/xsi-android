@@ -9,6 +9,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.builder.api.Foursquare2Api;
+import org.scribe.exceptions.OAuthException;
 import org.scribe.model.OAuthRequest;
 import org.scribe.model.Response;
 import org.scribe.model.Token;
@@ -81,30 +82,34 @@ public class FoursquareApi extends Foursquare2Api
 
 	public static JSONObject fetch(Uri uri)
 	{
-		Token accessToken = new Token(Keystore.get(FoursquareApi.USER_TOKEN), Keystore.get(FoursquareApi.USER_SECRET));
-    	
-		final OAuthRequest request = new OAuthRequest(Verb.GET, uri.toString() + "&oauth_token=" + Keystore.get(FoursquareApi.USER_TOKEN));
-
-    	ServiceBuilder builder = new ServiceBuilder();
-    	builder = builder.provider(FitbitApi.class);
-    	builder = builder.apiKey(Keystore.get(FoursquareApi.CONSUMER_KEY));
-    	builder = builder.apiSecret(Keystore.get(FoursquareApi.CONSUMER_SECRET));
-
-    	final OAuthService service = builder.build();
-
-		service.signRequest(accessToken, request);
-
-		Response response = request.send();
-
 		try
 		{
+            Token accessToken = new Token(Keystore.get(FoursquareApi.USER_TOKEN), Keystore.get(FoursquareApi.USER_SECRET));
+
+            final OAuthRequest request = new OAuthRequest(Verb.GET, uri.toString() + "&oauth_token=" + Keystore.get(FoursquareApi.USER_TOKEN));
+
+            ServiceBuilder builder = new ServiceBuilder();
+            builder = builder.provider(FitbitApi.class);
+            builder = builder.apiKey(Keystore.get(FoursquareApi.CONSUMER_KEY));
+            builder = builder.apiSecret(Keystore.get(FoursquareApi.CONSUMER_SECRET));
+
+            final OAuthService service = builder.build();
+
+            service.signRequest(accessToken, request);
+
+            Response response = request.send();
+
 			return new JSONObject(response.getBody());
 		} 
 		catch (JSONException e) 
 		{
 			e.printStackTrace();
 		}
-		
+        catch (OAuthException e)
+        {
+            e.printStackTrace();
+        }
+
 		return null;
 	}
 	

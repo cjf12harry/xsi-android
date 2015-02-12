@@ -4,6 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.builder.api.DefaultApi20;
+import org.scribe.exceptions.OAuthException;
 import org.scribe.extractors.AccessTokenExtractor;
 import org.scribe.extractors.JsonTokenExtractor;
 import org.scribe.model.OAuthConfig;
@@ -83,29 +84,33 @@ public class InstagramApi extends DefaultApi20
 
     public static JSONObject fetch(String url)
     {
-        Token accessToken = new Token(Keystore.get(InstagramApi.USER_TOKEN), Keystore.get(InstagramApi.USER_SECRET));
-
-        ServiceBuilder builder = new ServiceBuilder();
-        builder = builder.provider(InstagramApi.class);
-        builder = builder.apiKey(Keystore.get(InstagramApi.CONSUMER_KEY));
-        builder = builder.apiSecret(Keystore.get(InstagramApi.CONSUMER_SECRET));
-        builder = builder.apiSecret(Keystore.get(InstagramApi.CONSUMER_SECRET));
-        builder = builder.callback(InstagramApi.CALLBACK);
-
-        final OAuthService service = builder.build();
-
-        final OAuthRequest request = new OAuthRequest(Verb.GET, url);
-        service.signRequest(accessToken, request);
-
-        Response response = request.send();
-
         try
         {
+            Token accessToken = new Token(Keystore.get(InstagramApi.USER_TOKEN), Keystore.get(InstagramApi.USER_SECRET));
+
+            ServiceBuilder builder = new ServiceBuilder();
+            builder = builder.provider(InstagramApi.class);
+            builder = builder.apiKey(Keystore.get(InstagramApi.CONSUMER_KEY));
+            builder = builder.apiSecret(Keystore.get(InstagramApi.CONSUMER_SECRET));
+            builder = builder.apiSecret(Keystore.get(InstagramApi.CONSUMER_SECRET));
+            builder = builder.callback(InstagramApi.CALLBACK);
+
+            final OAuthService service = builder.build();
+
+            final OAuthRequest request = new OAuthRequest(Verb.GET, url);
+            service.signRequest(accessToken, request);
+
+            Response response = request.send();
+
             String body = response.getBody();
 
             return new JSONObject(body);
         }
         catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
+        catch (OAuthException e)
         {
             e.printStackTrace();
         }

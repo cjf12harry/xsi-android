@@ -103,5 +103,4 @@ public class JawboneApi extends DefaultApi20
 
 		return null;
 	}
-
 }

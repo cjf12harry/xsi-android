@@ -9,6 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.scribe.builder.api.DefaultApi20;
+import org.scribe.exceptions.OAuthException;
 import org.scribe.model.OAuthConfig;
 
 import android.net.Uri;
@@ -63,8 +64,13 @@ public class GitHubApi extends DefaultApi20
         {
 			e.printStackTrace();
 		}
-		
-		return null;
+        catch (OAuthException e)
+        {
+            e.printStackTrace();
+        }
+
+
+        return null;
 	}
 	
 	public static JSONObject fetch(Uri uri)
@@ -96,7 +102,11 @@ public class GitHubApi extends DefaultApi20
         {
 			e.printStackTrace();
 		}
-		
-		return null;
+        catch (OAuthException e)
+        {
+            e.printStackTrace();
+        }
+
+        return null;
 	}
 }
