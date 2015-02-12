@@ -11,6 +11,13 @@
 	<string name="uri_foursquare_explore" formatted="false">https://api.foursquare.com/v2/venues/explore?client_id=%s&amp;client_secret=%s&amp;v=20130815&amp;ll=%f,%f&amp;query=%s</string>
 	<string name="uri_foursquare_venue_photo" formatted="false">https://api.foursquare.com/v2/venues/%s/photos?client_id=%s&amp;client_secret=%s&amp;v=20130815</string>
 
+    <string name="title_facebook_success">Facebook Login Successful!</string>
+    <string name="message_facebook_success">You have successfully logged in to Facebook and can now fetch data from the service.</string>
+    <string name="title_facebook_failure">Facebook Login Failed!</string>
+    <string name="message_facebook_failure">You were unable to log in to Facebook. Please try again.</string>
+    <string name="confirm_facebook_success">OK</string>
+    <string name="confirm_facebook_try_again">Try Again</string>
+
     <string-array name="foursquare_excluded_categories">
         <item>Residential</item>
         <item>Neighborhood</item>
