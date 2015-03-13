@@ -8,7 +8,6 @@ import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 
 import com.facebook.Session;
 import com.facebook.SessionDefaultAudience;
@@ -49,8 +48,6 @@ public class FacebookLoginActivity extends ActionBarActivity
         String appId = this.getIntent().getStringExtra(FacebookLoginActivity.APP_ID);
 
         Session.Builder builder = new Session.Builder(this);
-
-        Log.e("XSI", "FB APP ID " + appId);
 
         Session session = builder.setApplicationId(appId).build();
 
