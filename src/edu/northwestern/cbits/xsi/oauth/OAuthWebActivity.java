@@ -36,12 +36,14 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.net.http.AndroidHttpClient;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.Window;
+import android.webkit.CookieManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -70,7 +72,13 @@ public class OAuthWebActivity extends ActionBarActivity
     	final String hashSecret = extras.getString(OAuthActivity.HASH_SECRET);
 
         WebView webView = (WebView) this.findViewById(R.id.webview);
-        
+        webView.clearCache(true);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            CookieManager.getInstance().removeAllCookies(null);
+        else
+            CookieManager.getInstance().removeAllCookie();
+
         Uri uri = this.getIntent().getData();
         
         if (uri != null && uri.getScheme() != null && (uri.getScheme().toLowerCase(Locale.ENGLISH).startsWith("http") || uri.getScheme().toLowerCase(Locale.ENGLISH).startsWith("https")))
