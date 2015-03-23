@@ -39,6 +39,7 @@ import android.net.http.AndroidHttpClient;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -119,10 +120,14 @@ public class OAuthWebActivity extends ActionBarActivity
         		{
         			boolean oauth = false;
 
+                    Log.e("XSI", "OAUTH URL: " + url);
+
         			if (url.toLowerCase(Locale.getDefault()).startsWith("http://purple.robot.com/oauth"))
         				oauth = true;
-        			else if (url.toLowerCase(Locale.getDefault()).startsWith("https://purple.robot.com/oauth"))
-        				oauth = true;
+                    else if (url.toLowerCase(Locale.getDefault()).startsWith("https://purple.robot.com/oauth"))
+                        oauth = true;
+                    else if (url.toLowerCase(Locale.getDefault()).startsWith("http://purplerobot/oauth"))
+                        oauth = true;
         			else if (url.toLowerCase(Locale.getDefault()).startsWith("http://tech.cbits.northwestern.edu/oauth/github?code="))
         			{
         				Runnable r = new Runnable()

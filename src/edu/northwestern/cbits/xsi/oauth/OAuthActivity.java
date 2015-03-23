@@ -1,9 +1,11 @@
 package edu.northwestern.cbits.xsi.oauth;
 
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
+import org.json.JSONException;
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.builder.api.DefaultApi10a;
 import org.scribe.builder.api.DefaultApi20;
@@ -27,6 +29,7 @@ import android.content.SharedPreferences.Editor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 public class OAuthActivity extends Activity
 {
@@ -74,6 +77,8 @@ public class OAuthActivity extends Activity
                 api = FoursquareApi.class;
             else if ("linkedin".equals(requester))
                 api = LinkedInApi.class;
+            else if ("ihealth".equals(requester))
+                api = iHealthApi.class;
 
         	final Class apiClass = api;
 
@@ -182,6 +187,8 @@ public class OAuthActivity extends Activity
         		{
         			final String requester = segments.get(1);
 
+                    Log.e("XSI", "REQUESTER: " + requester);
+
         			if ("github".equals(requester))
         			{
             			String access = incomingUri.getQueryParameter("access_token");
@@ -228,8 +235,51 @@ public class OAuthActivity extends Activity
 		                	return;
             			}
         			}
+                    else if ("ihealth".equals(requester))
+                    {
+                        final String code = incomingUri.getQueryParameter("code");
 
-        			String verifier = incomingUri.getQueryParameter("oauth_verifier");
+                        Runnable r = new Runnable()
+                        {
+                            public void run()
+                            {
+                                if (code != null)
+                                {
+                                    try
+                                    {
+                                        iHealthApi.completeLogin(me, code);
+
+                                        me.runOnUiThread(new Runnable()
+                                        {
+                                            public void run()
+                                            {
+                                                me.authSuccess();
+                                            }
+                                        });
+
+                                        return;
+                                    }
+                                    catch (JSONException e)
+                                    {
+                                        LogManager.getInstance(me, logUrl, hashSecret).logException(e);
+                                    }
+                                    catch (IOException e)
+                                    {
+                                        LogManager.getInstance(me, logUrl, hashSecret).logException(e);
+                                    }
+                                }
+
+                                // Report error
+                            }
+                        };
+
+                        Thread t = new Thread(r);
+                        t.start();
+
+                        return;
+                    }
+
+                    String verifier = incomingUri.getQueryParameter("oauth_verifier");
         			
         			if (verifier == null)
         				verifier = incomingUri.getQueryParameter("code");
@@ -279,6 +329,13 @@ public class OAuthActivity extends Activity
                             consumerSecret = Keystore.get(FoursquareApi.CONSUMER_SECRET);
                             callback = Keystore.get(FoursquareApi.CALLBACK_URL);
 	                	}
+                        else if ("ihealth".equalsIgnoreCase(requester))
+                        {
+                            apiClass = iHealthApi.class;
+
+                            consumerKey = Keystore.get(iHealthApi.CONSUMER_KEY);
+                            consumerSecret = Keystore.get(iHealthApi.CONSUMER_SECRET);
+                        }
 
 	        			if (apiClass != null && consumerKey != null && consumerSecret != null)
 	        			{
@@ -300,21 +357,28 @@ public class OAuthActivity extends Activity
 				            	{
 									public void run() 
 									{
-					                	Token accessToken = service.getAccessToken(null, v);
-					                	
-					                	Editor e = prefs.edit();
-					                	e.putString("oauth_" + requester + "_secret", accessToken.getSecret());
-					                	e.putString("oauth_" + requester + "_token", accessToken.getToken());
-					                	
-					                	e.commit();
-					                	
-					                	me.runOnUiThread(new Runnable()
-					                	{
-											public void run() 
-											{
-							                	me.authSuccess();
-											}
-					                	});
+                                        try
+                                        {
+                                            Token accessToken = service.getAccessToken(null, v);
+
+                                            Editor e = prefs.edit();
+                                            e.putString("oauth_" + requester + "_secret", accessToken.getSecret());
+                                            e.putString("oauth_" + requester + "_token", accessToken.getToken());
+
+                                            e.commit();
+
+                                            me.runOnUiThread(new Runnable()
+                                            {
+                                                public void run()
+                                                {
+                                                    me.authSuccess();
+                                                }
+                                            });
+                                        }
+                                        catch (OAuthException e)
+                                        {
+                                            LogManager.getInstance(me, logUrl, hashSecret).logException(e);
+                                        }
 									}
 				            	};
 							}
