@@ -79,87 +79,93 @@ public class OAuthActivity extends Activity
 
         	if (apiClass != null)
         	{
-	        	ServiceBuilder builder = new ServiceBuilder();
-	        	builder = builder.provider(apiClass);
-	        	builder = builder.apiKey(consumerKey);
-	        	builder = builder.apiSecret(consumerSecret);
-	        	builder = builder.callback(callbackUrl);
-	        	
-	        	final OAuthService service = builder.build();
+                try {
+                    ServiceBuilder builder = new ServiceBuilder();
+                    builder = builder.provider(apiClass);
+                    builder = builder.apiKey(consumerKey);
+                    builder = builder.apiSecret(consumerSecret);
+                    builder = builder.callback(callbackUrl);
 
-	        	final OAuthConfig config = new OAuthConfig(consumerKey, consumerSecret, callbackUrl, null, null, null);
-	        	
-	        	Runnable r = new Runnable()
-	        	{
-					public void run() 
-					{
-						try
-						{
-							if (DefaultApi20.class.isAssignableFrom(apiClass))
-							{
-								Constructor constructor = apiClass.getConstructors()[0];
-								
-								try 
-								{
-									DefaultApi20 api = (DefaultApi20) constructor.newInstance();
-									
-									String url = api.getAuthorizationUrl(config);
+                    final OAuthService service = builder.build();
+
+                    final OAuthConfig config = new OAuthConfig(consumerKey, consumerSecret, callbackUrl, null, null, null);
+
+                    Runnable r = new Runnable()
+                    {
+                        public void run()
+                        {
+                            try
+                            {
+                                if (DefaultApi20.class.isAssignableFrom(apiClass))
+                                {
+                                    Constructor constructor = apiClass.getConstructors()[0];
+
+                                    try
+                                    {
+                                        DefaultApi20 api = (DefaultApi20) constructor.newInstance();
+
+                                        String url = api.getAuthorizationUrl(config);
+
+                                        Intent intent = new Intent(me, OAuthWebActivity.class);
+                                        intent.putExtra(OAuthActivity.LOG_URL, logUrl);
+                                        intent.putExtra(OAuthActivity.HASH_SECRET, hashSecret);
+
+                                        intent.setData(Uri.parse(url));
+
+                                        me.startActivity(intent);
+                                    }
+                                    catch (InstantiationException e)
+                                    {
+                                        LogManager.getInstance(me, logUrl, hashSecret).logException(e);
+                                    }
+                                    catch (IllegalAccessException e)
+                                    {
+                                        LogManager.getInstance(me, logUrl, hashSecret).logException(e);
+                                    }
+                                    catch (IllegalArgumentException e)
+                                    {
+                                        LogManager.getInstance(me, logUrl, hashSecret).logException(e);
+                                    }
+                                    catch (InvocationTargetException e)
+                                    {
+                                        LogManager.getInstance(me, logUrl, hashSecret).logException(e);
+                                    }
+                                }
+                                else if (DefaultApi10a.class.isAssignableFrom(apiClass))
+                                {
+                                    Token token = service.getRequestToken();
+
+                                    Editor e = prefs.edit();
+                                    e.putString("request_token_" + requester, token.getToken());
+                                    e.putString("request_secret_" + requester, token.getSecret());
+                                    e.commit();
+
+                                    String url = service.getAuthorizationUrl(token);
 
                                     Intent intent = new Intent(me, OAuthWebActivity.class);
-									intent.putExtra(OAuthActivity.LOG_URL, logUrl);
-									intent.putExtra(OAuthActivity.HASH_SECRET, hashSecret);
-									
-									intent.setData(Uri.parse(url));
-									
-									me.startActivity(intent);
-								}
-								catch (InstantiationException e) 
-								{
-					     			LogManager.getInstance(me, logUrl, hashSecret).logException(e);
-								} 
-								catch (IllegalAccessException e) 
-								{
-					     			LogManager.getInstance(me, logUrl, hashSecret).logException(e);
-								} 
-								catch (IllegalArgumentException e) 
-								{
-					     			LogManager.getInstance(me, logUrl, hashSecret).logException(e);
-								}
-								catch (InvocationTargetException e) 
-								{
-					     			LogManager.getInstance(me, logUrl, hashSecret).logException(e);
-								}
-							}
-							else if (DefaultApi10a.class.isAssignableFrom(apiClass))
-							{
-								Token token = service.getRequestToken();
-								
-								Editor e = prefs.edit();
-								e.putString("request_token_" + requester, token.getToken());
-								e.putString("request_secret_" + requester, token.getSecret());
-								e.commit();
-			
-								String url = service.getAuthorizationUrl(token);
+                                    intent.putExtra(OAuthActivity.LOG_URL, logUrl);
+                                    intent.putExtra(OAuthActivity.HASH_SECRET, hashSecret);
 
-                                Intent intent = new Intent(me, OAuthWebActivity.class);
-								intent.putExtra(OAuthActivity.LOG_URL, logUrl);
-								intent.putExtra(OAuthActivity.HASH_SECRET, hashSecret);
+                                    intent.setData(Uri.parse(url));
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-								intent.setData(Uri.parse(url));
-				    	        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			
-				    	        me.startActivity(intent);
-							}
-						}
-						catch (OAuthException e)
-						{
-			     			LogManager.getInstance(me, logUrl, hashSecret).logException(e);
-						}
-					}
-	        	};
-	        	
-	        	Thread t = new Thread(r);
-	        	t.start();
+                                    me.startActivity(intent);
+                                }
+                            }
+                            catch (OAuthException e)
+                            {
+                                LogManager.getInstance(me, logUrl, hashSecret).logException(e);
+                            }
+                        }
+                    };
+
+                    Thread t = new Thread(r);
+                    t.start();
+                }
+                catch (IllegalArgumentException e)
+                {
+                    e.printStackTrace();
+                }
         	}
 
         	this.finish();
