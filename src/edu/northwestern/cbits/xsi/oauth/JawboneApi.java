@@ -29,6 +29,8 @@ import android.content.Context;
 import android.net.Uri;
 import android.net.http.AndroidHttpClient;
 
+import edu.northwestern.cbits.xsi.XSI;
+
 public class JawboneApi extends DefaultApi20 
 {
 	public static final String CONSUMER_KEY = "jawbone_consumer_key";
@@ -73,6 +75,7 @@ public class JawboneApi extends DefaultApi20
 		httpGet.addHeader("Accept", "application/json");
 		httpGet.addHeader("X-Target-URI", "https://jawbone.com");
 		httpGet.addHeader("X-HostCommonName", "jawbone.com");
+        httpGet.addHeader("User-Agent", XSI.getUserAgent());
 
 		try 
 		{

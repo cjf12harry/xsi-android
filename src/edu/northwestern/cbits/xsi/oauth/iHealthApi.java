@@ -2,28 +2,16 @@ package edu.northwestern.cbits.xsi.oauth;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.scribe.builder.ServiceBuilder;
-import org.scribe.builder.api.DefaultApi10a;
 import org.scribe.builder.api.DefaultApi20;
-import org.scribe.exceptions.OAuthException;
 import org.scribe.model.OAuthConfig;
-import org.scribe.model.OAuthRequest;
-import org.scribe.model.Response;
-import org.scribe.model.Token;
-import org.scribe.model.Verb;
-import org.scribe.oauth.OAuthService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 public class iHealthApi extends DefaultApi20
@@ -87,8 +75,6 @@ public class iHealthApi extends DefaultApi20
         urlBuffer.append("&start_time=" + start);
         urlBuffer.append("&end_time=" + end);
 
-        Log.e("XSI", "IH FETCH ACTIVITY " + urlBuffer.toString());
-
         BufferedReader in = new BufferedReader(new InputStreamReader(new URL(urlBuffer.toString()).openStream()));
 
         StringBuffer all = new StringBuffer();
@@ -139,8 +125,6 @@ public class iHealthApi extends DefaultApi20
             in.close();
 
             JSONObject response = new JSONObject(all.toString());
-
-            Log.e("XSI", "REFRESH TOKEN RESPONSE: " + response.toString(2));
 
             String userId = response.getString("UserID");
             String accessToken = response.getString("AccessToken");
@@ -210,8 +194,6 @@ public class iHealthApi extends DefaultApi20
         in.close();
 
         JSONObject response = new JSONObject(all.toString());
-
-        Log.e("XSI", "TOKEN RESPONSE: " + response.toString(2));
 
         String userId = response.getString("UserID");
         String accessToken = response.getString("AccessToken");

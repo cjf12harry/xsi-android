@@ -30,6 +30,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import edu.northwestern.cbits.xsi.R;
+import edu.northwestern.cbits.xsi.XSI;
 import edu.northwestern.cbits.xsi.logging.LogManager;
 
 import android.annotation.SuppressLint;
@@ -39,7 +40,6 @@ import android.net.http.AndroidHttpClient;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -74,6 +74,7 @@ public class OAuthWebActivity extends ActionBarActivity
 
         WebView webView = (WebView) this.findViewById(R.id.webview);
         webView.clearCache(true);
+        webView.getSettings().setUserAgentString(XSI.getUserAgent());
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             CookieManager.getInstance().removeAllCookies(null);
@@ -119,8 +120,6 @@ public class OAuthWebActivity extends ActionBarActivity
     			public boolean shouldOverrideUrlLoading (final WebView view, final String url)
         		{
         			boolean oauth = false;
-
-                    Log.e("XSI", "OAUTH URL: " + url);
 
         			if (url.toLowerCase(Locale.getDefault()).startsWith("http://purple.robot.com/oauth"))
         				oauth = true;
@@ -170,8 +169,9 @@ public class OAuthWebActivity extends ActionBarActivity
 									HttpEntity entity = new UrlEncodedFormEntity(pairs, HTTP.US_ASCII);
 
 									httpPost.setEntity(entity);
+                                    httpPost.addHeader("User-Agent", XSI.getUserAgent());
 
-									HttpResponse response = httpClient.execute(httpPost);
+                                    HttpResponse response = httpClient.execute(httpPost);
 
 									HttpEntity httpEntity = response.getEntity();
 
@@ -248,6 +248,7 @@ public class OAuthWebActivity extends ActionBarActivity
 									HttpEntity entity = new UrlEncodedFormEntity(pairs, HTTP.US_ASCII);
 
 									httpPost.setEntity(entity);
+                                    httpPost.addHeader("User-Agent", XSI.getUserAgent());
 
 									HttpResponse response = httpClient.execute(httpPost);
 

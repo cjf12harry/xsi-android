@@ -13,6 +13,8 @@ import org.scribe.oauth.OAuthService;
 
 import android.net.Uri;
 
+import edu.northwestern.cbits.xsi.XSI;
+
 public class FitbitApi extends DefaultApi10a 
 {
 	public static final String CONSUMER_KEY = "fitbit_consumer_key";
@@ -47,6 +49,7 @@ public class FitbitApi extends DefaultApi10a
             Token accessToken = new Token(Keystore.get(FitbitApi.USER_TOKEN), Keystore.get(FitbitApi.USER_SECRET));
 
             final OAuthRequest request = new OAuthRequest(Verb.GET, uri.toString());
+            request.addHeader("User-Agent", XSI.getUserAgent());
 
             ServiceBuilder builder = new ServiceBuilder();
             builder = builder.provider(FitbitApi.class);

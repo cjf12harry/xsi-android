@@ -20,6 +20,8 @@ import org.scribe.oauth.OAuthService;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
+import edu.northwestern.cbits.xsi.XSI;
+
 public class InstagramApi extends DefaultApi20 
 {
     public static final String CONSUMER_KEY = "instagram_consumer_key";
@@ -66,6 +68,7 @@ public class InstagramApi extends DefaultApi20
 			public Token getAccessToken(Token requestToken, Verifier verifier) 
 			{
 				OAuthRequest request = new OAuthRequest(getAccessTokenVerb(), getAccessTokenEndpoint());
+                request.addHeader("User-Agent", XSI.getUserAgent());
 
 				request.addBodyParameter("grant_type", "authorization_code");
 				request.addBodyParameter(OAuthConstants.CLIENT_ID, config.getApiKey());

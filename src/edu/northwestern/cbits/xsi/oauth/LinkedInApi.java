@@ -10,6 +10,8 @@ import org.scribe.model.Token;
 import org.scribe.model.Verb;
 import org.scribe.oauth.OAuthService;
 
+import edu.northwestern.cbits.xsi.XSI;
+
 public class LinkedInApi extends org.scribe.builder.api.LinkedInApi
 {
 	public static final String CONSUMER_KEY = "linkedin_consumer_key";
@@ -31,6 +33,7 @@ public class LinkedInApi extends org.scribe.builder.api.LinkedInApi
             final OAuthService service = builder.build();
 
             final OAuthRequest request = new OAuthRequest(Verb.GET, url);
+            request.addHeader("User-Agent", XSI.getUserAgent());
             service.signRequest(accessToken, request);
 
             Response response = request.send();

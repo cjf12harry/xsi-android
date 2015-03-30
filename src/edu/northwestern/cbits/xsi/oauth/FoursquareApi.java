@@ -17,6 +17,7 @@ import org.scribe.model.Verb;
 import org.scribe.oauth.OAuthService;
 
 import edu.northwestern.cbits.xsi.R;
+import edu.northwestern.cbits.xsi.XSI;
 import edu.northwestern.cbits.xsi.logging.LogManager;
 
 import android.content.Context;
@@ -60,6 +61,7 @@ public class FoursquareApi extends Foursquare2Api
 	public static JSONObject anonymousFetch(Uri uri)
 	{
 		final OAuthRequest request = new OAuthRequest(Verb.GET, uri.toString());
+        request.addHeader("User-Agent", XSI.getUserAgent());
 
 		Response response = request.send();
 
@@ -87,6 +89,7 @@ public class FoursquareApi extends Foursquare2Api
             Token accessToken = new Token(Keystore.get(FoursquareApi.USER_TOKEN), Keystore.get(FoursquareApi.USER_SECRET));
 
             final OAuthRequest request = new OAuthRequest(Verb.GET, uri.toString() + "&oauth_token=" + Keystore.get(FoursquareApi.USER_TOKEN));
+            request.addHeader("User-Agent", XSI.getUserAgent());
 
             ServiceBuilder builder = new ServiceBuilder();
             builder = builder.provider(FitbitApi.class);
@@ -166,7 +169,6 @@ public class FoursquareApi extends Foursquare2Api
 							venues.add(item.getJSONObject("venue"));
 						}
 					}
-						
 				}
 			}
 			

@@ -29,7 +29,6 @@ import android.content.SharedPreferences.Editor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 public class OAuthActivity extends Activity
 {
@@ -186,8 +185,6 @@ public class OAuthActivity extends Activity
         		if (segments.get(0).equals("oauth"))
         		{
         			final String requester = segments.get(1);
-
-                    Log.e("XSI", "REQUESTER: " + requester);
 
         			if ("github".equals(requester))
         			{
