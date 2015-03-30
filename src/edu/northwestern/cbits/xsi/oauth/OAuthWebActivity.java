@@ -141,7 +141,7 @@ public class OAuthWebActivity extends ActionBarActivity
 
 								try 
 								{
-									AndroidHttpClient androidClient = AndroidHttpClient.newInstance("Intellicare", me);
+									AndroidHttpClient androidClient = AndroidHttpClient.newInstance("XSI-Android", me);
 
 							        HostnameVerifier hostnameVerifier = org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER;
 
@@ -219,7 +219,7 @@ public class OAuthWebActivity extends ActionBarActivity
 
 								try 
 								{
-									AndroidHttpClient androidClient = AndroidHttpClient.newInstance("Intellicare", me);
+									AndroidHttpClient androidClient = AndroidHttpClient.newInstance("XSI-Android", me);
 
 							        HostnameVerifier hostnameVerifier = org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER;
 
