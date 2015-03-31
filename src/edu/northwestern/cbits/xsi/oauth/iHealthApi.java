@@ -148,14 +148,70 @@ public class iHealthApi extends DefaultApi20
         return null;
     }
 
-    public static JSONObject fetchWeight(long start, long end)
+    public static JSONObject fetchWeight(Context context, long start, long end) throws IOException, JSONException
     {
-        return null;
+        iHealthApi.refreshTokenAsNeeded(context);
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        String userId = prefs.getString("oauth_ihealth_user_id", "");
+
+        StringBuffer urlBuffer = new StringBuffer();
+        urlBuffer.append("https://api.ihealthlabs.com:8443/openapiv2/user/" + userId + "/weight.json/");
+        urlBuffer.append("?client_id=" + Keystore.get(iHealthApi.CONSUMER_KEY));
+        urlBuffer.append("&client_secret=" + Keystore.get(iHealthApi.CONSUMER_SECRET));
+        urlBuffer.append("&sc=" + Keystore.get(iHealthApi.WEIGHT_SC));
+        urlBuffer.append("&sv=" + Keystore.get(iHealthApi.WEIGHT_SV));
+        urlBuffer.append("&access_token=" + Keystore.get(iHealthApi.USER_TOKEN));
+        urlBuffer.append("&start_time=" + start);
+        urlBuffer.append("&end_time=" + end);
+
+        BufferedReader in = new BufferedReader(new InputStreamReader(new URL(urlBuffer.toString()).openStream()));
+
+        StringBuffer all = new StringBuffer();
+        String inputLine = null;
+
+        while ((inputLine = in.readLine()) != null)
+        {
+            all.append(inputLine);
+            all.append("\n");
+        }
+
+        in.close();
+
+        return new JSONObject(all.toString());
     }
 
-    public static JSONObject fetchBloodPressure(long start, long end)
+    public static JSONObject fetchBloodPressure(Context context, long start, long end) throws IOException, JSONException
     {
-        return null;
+        iHealthApi.refreshTokenAsNeeded(context);
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        String userId = prefs.getString("oauth_ihealth_user_id", "");
+
+        StringBuffer urlBuffer = new StringBuffer();
+        urlBuffer.append("https://api.ihealthlabs.com:8443/openapiv2/user/" + userId + "/bp.json/");
+        urlBuffer.append("?client_id=" + Keystore.get(iHealthApi.CONSUMER_KEY));
+        urlBuffer.append("&client_secret=" + Keystore.get(iHealthApi.CONSUMER_SECRET));
+        urlBuffer.append("&sc=" + Keystore.get(iHealthApi.PRESSURE_SC));
+        urlBuffer.append("&sv=" + Keystore.get(iHealthApi.PRESSURE_SV));
+        urlBuffer.append("&access_token=" + Keystore.get(iHealthApi.USER_TOKEN));
+        urlBuffer.append("&start_time=" + start);
+        urlBuffer.append("&end_time=" + end);
+
+        BufferedReader in = new BufferedReader(new InputStreamReader(new URL(urlBuffer.toString()).openStream()));
+
+        StringBuffer all = new StringBuffer();
+        String inputLine = null;
+
+        while ((inputLine = in.readLine()) != null)
+        {
+            all.append(inputLine);
+            all.append("\n");
+        }
+
+        in.close();
+
+        return new JSONObject(all.toString());
     }
 
     public static JSONObject fetchBloodOxygen(long start, long end)
@@ -163,9 +219,37 @@ public class iHealthApi extends DefaultApi20
         return null;
     }
 
-    public static JSONObject fetchBloodGlucose(long start, long end)
+    public static JSONObject fetchBloodGlucose(Context context, long start, long end) throws IOException, JSONException
     {
-        return null;
+        iHealthApi.refreshTokenAsNeeded(context);
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        String userId = prefs.getString("oauth_ihealth_user_id", "");
+
+        StringBuffer urlBuffer = new StringBuffer();
+        urlBuffer.append("https://api.ihealthlabs.com:8443/openapiv2/user/" + userId + "/weight.json/");
+        urlBuffer.append("?client_id=" + Keystore.get(iHealthApi.CONSUMER_KEY));
+        urlBuffer.append("&client_secret=" + Keystore.get(iHealthApi.CONSUMER_SECRET));
+        urlBuffer.append("&sc=" + Keystore.get(iHealthApi.GLUCOSE_SC));
+        urlBuffer.append("&sv=" + Keystore.get(iHealthApi.GLUCOSE_SV));
+        urlBuffer.append("&access_token=" + Keystore.get(iHealthApi.USER_TOKEN));
+        urlBuffer.append("&start_time=" + start);
+        urlBuffer.append("&end_time=" + end);
+
+        BufferedReader in = new BufferedReader(new InputStreamReader(new URL(urlBuffer.toString()).openStream()));
+
+        StringBuffer all = new StringBuffer();
+        String inputLine = null;
+
+        while ((inputLine = in.readLine()) != null)
+        {
+            all.append(inputLine);
+            all.append("\n");
+        }
+
+        in.close();
+
+        return new JSONObject(all.toString());
     }
 
     public static void completeLogin(Context context, String code) throws IOException, JSONException

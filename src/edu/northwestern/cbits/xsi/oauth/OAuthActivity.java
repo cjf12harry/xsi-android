@@ -258,11 +258,13 @@ public class OAuthActivity extends Activity
                                     }
                                     catch (JSONException e)
                                     {
-                                        LogManager.getInstance(me, logUrl, hashSecret).logException(e);
+                                        e.printStackTrace();
+//                                        LogManager.getInstance(me, logUrl, hashSecret).logException(e);
                                     }
                                     catch (IOException e)
                                     {
-                                        LogManager.getInstance(me, logUrl, hashSecret).logException(e);
+                                        e.printStackTrace();
+//                                        LogManager.getInstance(me, logUrl, hashSecret).logException(e);
                                     }
                                 }
 
