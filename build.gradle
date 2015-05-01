@@ -4,11 +4,11 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.0.0+'
+        classpath 'com.android.tools.build:gradle:1.2.2'
     }
 }
 
-apply plugin: 'android-library'
+apply plugin: 'com.android.library'
 
 android {
     repositories {
@@ -30,8 +30,8 @@ android {
     }
 
     dependencies {
-        compile 'com.android.support:appcompat-v7:22.+'
-        compile 'com.facebook.android:facebook-android-sdk:3.+'
+        compile 'com.android.support:appcompat-v7:22.1.1'
+        compile 'com.facebook.android:facebook-android-sdk:3.23.1'
         compile fileTree(dir: 'libs', include: '*.jar')
         compile project(':anthracite-clients-android')
     }
