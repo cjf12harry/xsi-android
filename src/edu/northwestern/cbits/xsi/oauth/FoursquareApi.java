@@ -256,7 +256,7 @@ public class FoursquareApi extends Foursquare2Api
 		String clientSecret = Keystore.get(FoursquareApi.CONSUMER_SECRET);
 
 		JSONObject response = FoursquareApi.anonymousFetch(Uri.parse(context.getString(R.string.uri_foursquare_venue_photo, id,  clientId, clientSecret)));
-		
+
 		try
 		{
 			if (response.getJSONObject("response").has("photos"))
