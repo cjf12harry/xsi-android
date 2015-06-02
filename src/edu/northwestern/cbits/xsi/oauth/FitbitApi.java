@@ -64,14 +64,10 @@ public class FitbitApi extends DefaultApi10a
 
 			return new JSONObject(response.getBody());
 		} 
-		catch (JSONException e) 
+		catch (JSONException | OAuthException e)
 		{
 			e.printStackTrace();
 		}
-        catch (OAuthException e)
-        {
-            e.printStackTrace();
-        }
 
 		return null;
 	}

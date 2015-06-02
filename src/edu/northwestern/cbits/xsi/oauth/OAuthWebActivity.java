@@ -162,7 +162,7 @@ public class OAuthWebActivity extends ActionBarActivity
 									
 									HttpPost httpPost = new HttpPost(newUrl);
 
-									List<NameValuePair> pairs = new ArrayList<NameValuePair>();
+									List<NameValuePair> pairs = new ArrayList<>();
 									pairs.add(new BasicNameValuePair("client_id", Keystore.get(GitHubApi.CONSUMER_KEY)));
 									pairs.add(new BasicNameValuePair("client_secret", Keystore.get(GitHubApi.CONSUMER_SECRET)));
 									pairs.add(new BasicNameValuePair("code", code));
@@ -189,11 +189,7 @@ public class OAuthWebActivity extends ActionBarActivity
 			        				
 			        				me.finish();
 								} 
-								catch (ParseException e) 
-								{
-									e.printStackTrace();
-								}
-								catch (IOException e) 
+								catch (ParseException | IOException e)
 								{
 									e.printStackTrace();
 								}
@@ -240,7 +236,7 @@ public class OAuthWebActivity extends ActionBarActivity
 									
 									HttpPost httpPost = new HttpPost(newUrl);
 
-									List<NameValuePair> pairs = new ArrayList<NameValuePair>();
+									List<NameValuePair> pairs = new ArrayList<>();
 									pairs.add(new BasicNameValuePair("client_id", Keystore.get(JawboneApi.CONSUMER_KEY)));
 									pairs.add(new BasicNameValuePair("client_secret", Keystore.get(JawboneApi.CONSUMER_SECRET)));
 									pairs.add(new BasicNameValuePair("grant_type", "authorization_code"));
@@ -281,11 +277,7 @@ public class OAuthWebActivity extends ActionBarActivity
 			        				
 			        				me.finish();
 								} 
-								catch (ParseException e) 
-								{
-									e.printStackTrace();
-								}
-								catch (IOException e) 
+								catch (ParseException | IOException e)
 								{
 									e.printStackTrace();
 								}

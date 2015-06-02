@@ -42,11 +42,7 @@ public class LinkedInApi extends org.scribe.builder.api.LinkedInApi
 
             return new JSONObject(body);
         }
-        catch (JSONException e)
-        {
-            e.printStackTrace();
-        }
-        catch (OAuthException e)
+        catch (JSONException | OAuthException e)
         {
             e.printStackTrace();
         }

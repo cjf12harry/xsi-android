@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public class Keystore 
 {
-	private static HashMap<String, String> _store = new HashMap<String, String>();
+	private static HashMap<String, String> _store = new HashMap<>();
 	
 	public static String get(String key)
 	{
