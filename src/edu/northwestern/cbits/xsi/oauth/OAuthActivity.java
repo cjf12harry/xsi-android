@@ -3,9 +3,11 @@ package edu.northwestern.cbits.xsi.oauth;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.nio.charset.Charset;
 import java.util.List;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.builder.api.DefaultApi10a;
 import org.scribe.builder.api.DefaultApi20;
@@ -13,8 +15,16 @@ import org.scribe.builder.api.Foursquare2Api;
 import org.scribe.exceptions.OAuthConnectionException;
 import org.scribe.exceptions.OAuthException;
 import org.scribe.model.OAuthConfig;
+import org.scribe.model.OAuthConstants;
+import org.scribe.model.OAuthRequest;
+import org.scribe.model.Request;
+import org.scribe.model.RequestTuner;
+import org.scribe.model.Response;
+import org.scribe.model.SignatureType;
 import org.scribe.model.Token;
+import org.scribe.model.Verb;
 import org.scribe.model.Verifier;
+import org.scribe.oauth.OAuth20ServiceImpl;
 import org.scribe.oauth.OAuthService;
 
 import edu.northwestern.cbits.xsi.R;
@@ -29,6 +39,7 @@ import android.content.SharedPreferences.Editor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Base64;
 
 public class OAuthActivity extends Activity
 {
@@ -48,12 +59,14 @@ public class OAuthActivity extends Activity
 
     	final OAuthActivity me = this;
 
-    	Bundle extras = this.getIntent().getExtras();
+    	final Bundle extras = this.getIntent().getExtras();
 
     	final String logUrl = extras.getString(OAuthActivity.LOG_URL);
     	final String hashSecret = extras.getString(OAuthActivity.HASH_SECRET);
 
-    	if (extras.containsKey(OAuthActivity.CONSUMER_KEY))
+        Uri incomingUri = this.getIntent().getData();
+
+        if (incomingUri == null && extras.containsKey(OAuthActivity.CONSUMER_KEY))
     	{
         	final String consumerKey = extras.getString(OAuthActivity.CONSUMER_KEY);
         	final String consumerSecret = extras.getString(OAuthActivity.CONSUMER_SECRET);
@@ -85,7 +98,8 @@ public class OAuthActivity extends Activity
 
         	if (apiClass != null)
         	{
-                try {
+                try
+                {
                     ServiceBuilder builder = new ServiceBuilder();
                     builder = builder.provider(apiClass);
                     builder = builder.apiKey(consumerKey);
@@ -117,6 +131,7 @@ public class OAuthActivity extends Activity
                                         intent.putExtra(OAuthActivity.HASH_SECRET, hashSecret);
 
                                         intent.setData(Uri.parse(url));
+                                        intent.putExtras(extras);
 
                                         me.startActivity(intent);
                                     }
@@ -166,8 +181,6 @@ public class OAuthActivity extends Activity
     	}
     	else
     	{
-    		Uri incomingUri = this.getIntent().getData();
-
         	if ("http".equals(incomingUri.getScheme()) || "https".equals(incomingUri.getScheme()))
         	{
         		List<String> segments = incomingUri.getPathSegments();
@@ -333,7 +346,7 @@ public class OAuthActivity extends Activity
 			            	builder = builder.provider(apiClass);
 			            	builder = builder.apiKey(consumerKey);
 			            	builder = builder.apiSecret(consumerSecret);
-			            	
+
 			            	if (callback != null)
 			            		builder = builder.callback(callback);
 			            	
@@ -343,27 +356,82 @@ public class OAuthActivity extends Activity
 			            	
 			            	if (DefaultApi20.class.isAssignableFrom(apiClass))
 							{
-				            	r = new Runnable()
+                                final String finalCallback = callback;
+
+                                r = new Runnable()
 				            	{
 									public void run() 
 									{
                                         try
                                         {
-                                            Token accessToken = service.getAccessToken(null, v);
-
-                                            Editor e = prefs.edit();
-                                            e.putString("oauth_" + requester + "_secret", accessToken.getSecret());
-                                            e.putString("oauth_" + requester + "_token", accessToken.getToken());
-
-                                            e.commit();
-
-                                            me.runOnUiThread(new Runnable()
+                                            if ("fitbit-beta".equals(requester))
                                             {
-                                                public void run()
+                                                final FitbitBetaApi api = new FitbitBetaApi();
+
+                                                OAuthConfig config = new OAuthConfig(Keystore.get(FitbitBetaApi.CONSUMER_KEY), Keystore.get(FitbitBetaApi.CONSUMER_SECRET), finalCallback, SignatureType.Header, null, null);
+
+                                                OAuth20ServiceImpl customService = new OAuth20ServiceImpl(api, config)
                                                 {
-                                                    me.authSuccess();
-                                                }
-                                            });
+                                                    public Token getAccessToken(Token requestToken, Verifier verifier)
+                                                    {
+                                                        OAuthRequest request = new OAuthRequest(Verb.POST, api.getAccessTokenEndpoint());
+
+                                                        request.addQuerystringParameter(OAuthConstants.CLIENT_ID, Keystore.get(FitbitBetaApi.CONSUMER_KEY));
+                                                        request.addQuerystringParameter(OAuthConstants.CLIENT_SECRET, Keystore.get(FitbitBetaApi.CONSUMER_SECRET));
+                                                        request.addQuerystringParameter(OAuthConstants.CODE, verifier.getValue());
+                                                        request.addQuerystringParameter("grant_type", "authorization_code");
+                                                        request.addQuerystringParameter(OAuthConstants.REDIRECT_URI, Keystore.get(FitbitBetaApi.CALLBACK_URL));
+
+                                                        String basicAuth = Keystore.get(FitbitBetaApi.OAUTH2_CLIENT_ID) + ":" + Keystore.get(FitbitBetaApi.CONSUMER_SECRET);
+                                                        request.addHeader("Authorization", "Basic " + Base64.encodeToString(basicAuth.getBytes(Charset.forName("UTF-8")), 0));
+
+                                                        Response response = request.send();
+
+                                                        try
+                                                        {
+                                                            JSONObject respObj = new JSONObject(response.getBody());
+
+                                                            return new Token(respObj.getString("access_token"), respObj.getString("refresh_token"));
+                                                        }
+                                                        catch (JSONException e)
+                                                        {
+                                                            return api.getAccessTokenExtractor().extract(response.getBody());
+                                                        }
+                                                    }
+                                                };
+
+                                                Token accessToken = customService.getAccessToken(null, v);
+
+                                                // Abusing Token object to work around OAuth2 shenanigans...
+
+                                                Editor e = prefs.edit();
+                                                e.putString("oauth_" + requester + "_access_token", accessToken.getToken());
+                                                e.putString("oauth_" + requester + "_refresh_token", accessToken.getSecret());
+                                                e.putLong("oauth_" + requester + "_expires", System.currentTimeMillis() + ((60 * 60) * 1000));
+                                                e.commit();
+
+                                                me.runOnUiThread(new Runnable() {
+                                                    public void run() {
+                                                        me.authSuccess();
+                                                    }
+                                                });
+                                            }
+                                            else
+                                            {
+                                                Token accessToken = service.getAccessToken(null, v);
+
+                                                Editor e = prefs.edit();
+                                                e.putString("oauth_" + requester + "_secret", accessToken.getSecret());
+                                                e.putString("oauth_" + requester + "_token", accessToken.getToken());
+
+                                                e.commit();
+
+                                                me.runOnUiThread(new Runnable() {
+                                                    public void run() {
+                                                        me.authSuccess();
+                                                    }
+                                                });
+                                            }
                                         }
                                         catch (OAuthException e)
                                         {

@@ -67,7 +67,7 @@ public class OAuthWebActivity extends ActionBarActivity
 	{
 		super.onResume();
 		
-		Bundle extras = this.getIntent().getExtras();
+		final Bundle extras = this.getIntent().getExtras();
 		
     	final String logUrl = extras.getString(OAuthActivity.LOG_URL);
     	final String hashSecret = extras.getString(OAuthActivity.HASH_SECRET);
@@ -301,7 +301,7 @@ public class OAuthWebActivity extends ActionBarActivity
         			{
         				Intent intent = new Intent(me, OAuthActivity.class);
         				intent.setData(Uri.parse(url));
-        				intent.putExtras(new Bundle());
+        				intent.putExtras(extras);
         				
         				me.startActivity(intent);
         				
