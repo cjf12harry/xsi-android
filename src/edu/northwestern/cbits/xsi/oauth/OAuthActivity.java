@@ -17,8 +17,6 @@ import org.scribe.exceptions.OAuthException;
 import org.scribe.model.OAuthConfig;
 import org.scribe.model.OAuthConstants;
 import org.scribe.model.OAuthRequest;
-import org.scribe.model.Request;
-import org.scribe.model.RequestTuner;
 import org.scribe.model.Response;
 import org.scribe.model.SignatureType;
 import org.scribe.model.Token;
@@ -66,6 +64,8 @@ public class OAuthActivity extends Activity
 
         Uri incomingUri = this.getIntent().getData();
 
+//        Log.e("XSI", "onResume: " + incomingUri + " -- " + extras.containsKey(OAuthActivity.CONSUMER_KEY));
+
         if (incomingUri == null && extras.containsKey(OAuthActivity.CONSUMER_KEY))
     	{
         	final String consumerKey = extras.getString(OAuthActivity.CONSUMER_KEY);
@@ -95,6 +95,8 @@ public class OAuthActivity extends Activity
                 api = iHealthApi.class;
 
         	final Class apiClass = api;
+
+ //           Log.e("XSI", "API CLASS " + apiClass);
 
         	if (apiClass != null)
         	{
@@ -277,11 +279,15 @@ public class OAuthActivity extends Activity
                     }
 
                     String verifier = incomingUri.getQueryParameter("oauth_verifier");
-        			
+
+//                    Log.e("XSI", "VERIFIER 1 " + verifier);
+
         			if (verifier == null)
         				verifier = incomingUri.getQueryParameter("code");
-        			
-        			if (verifier != null)
+
+//                    Log.e("XSI", "VERIFIER 2 " + verifier);
+
+                    if (verifier != null)
         			{
 	        			final Token requestToken = new Token(prefs.getString("request_token_" + requester, ""), prefs.getString("request_secret_" + requester, ""));
 	        			
@@ -340,6 +346,8 @@ public class OAuthActivity extends Activity
                             consumerSecret = Keystore.get(iHealthApi.CONSUMER_SECRET);
                         }
 
+//                        Log.e("XSI", "FETCHING REQUEST TOKEN " + apiClass + " -- " + consumerKey + " -- " + consumerSecret);
+
 	        			if (apiClass != null && consumerKey != null && consumerSecret != null)
 	        			{
 			            	ServiceBuilder builder = new ServiceBuilder();
@@ -356,6 +364,8 @@ public class OAuthActivity extends Activity
 			            	
 			            	if (DefaultApi20.class.isAssignableFrom(apiClass))
 							{
+//                                Log.e("XSI", "OAUTH2");
+
                                 final String finalCallback = callback;
 
                                 r = new Runnable()
@@ -442,7 +452,9 @@ public class OAuthActivity extends Activity
 							}
 							else if (DefaultApi10a.class.isAssignableFrom(apiClass))
 							{
-				            	r = new Runnable()
+//                                Log.e("XSI", "OAUTH1");
+
+                                r = new Runnable()
 				            	{
 									public void run() 
 									{
