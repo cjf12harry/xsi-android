@@ -104,21 +104,17 @@ public class FoursquareApi extends Foursquare2Api
 
 			return new JSONObject(response.getBody());
 		} 
-		catch (JSONException e) 
+		catch (JSONException | OAuthException e)
 		{
 			e.printStackTrace();
 		}
-        catch (OAuthException e)
-        {
-            e.printStackTrace();
-        }
 
 		return null;
 	}
 	
 	public static List<Place> searchPlaces(Context context, double latitude, double longitude, String query)
 	{
-		ArrayList<Place> places = new ArrayList<Place>();
+		ArrayList<Place> places = new ArrayList<>();
 		
 		String clientId = Keystore.get(FoursquareApi.CONSUMER_KEY);
 		String clientSecret = Keystore.get(FoursquareApi.CONSUMER_SECRET);
@@ -129,7 +125,7 @@ public class FoursquareApi extends Foursquare2Api
 		
 		if (FoursquareApi._exclude == null)
 		{
-			FoursquareApi._exclude = new HashSet<String>();
+			FoursquareApi._exclude = new HashSet<>();
 			
 			String[] excluded = context.getResources().getStringArray(R.array.foursquare_excluded_categories);
 			
@@ -139,7 +135,7 @@ public class FoursquareApi extends Foursquare2Api
 		
 		try 
 		{
-			ArrayList<JSONObject> venues = new ArrayList<JSONObject>();
+			ArrayList<JSONObject> venues = new ArrayList<>();
 					
 			if (response.getJSONObject("response").has("venues"))
 			{
@@ -199,7 +195,7 @@ public class FoursquareApi extends Foursquare2Api
 					
 					place.infoUri = Uri.parse("https://foursquare.com/v/foursquare-hq/" + place.id);
 					
-					StringBuffer address = new StringBuffer();
+					StringBuilder address = new StringBuilder();
 					
 					JSONArray addressLines = location.getJSONArray("formattedAddress");
 					

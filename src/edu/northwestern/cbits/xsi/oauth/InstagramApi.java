@@ -109,11 +109,7 @@ public class InstagramApi extends DefaultApi20
 
             return new JSONObject(body);
         }
-        catch (JSONException e)
-        {
-            e.printStackTrace();
-        }
-        catch (OAuthException e)
+        catch (JSONException | OAuthException e)
         {
             e.printStackTrace();
         }

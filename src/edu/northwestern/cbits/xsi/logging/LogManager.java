@@ -118,11 +118,7 @@ public class LogManager
 				hash = "0" + hash;
 			}
 		}
-		catch (NoSuchAlgorithmException e)
-		{
-			LogManager.getInstance(context, this._logUrl, this._hashSecret).logException(e);
-		}
-		catch (UnsupportedEncodingException e)
+		catch (NoSuchAlgorithmException | UnsupportedEncodingException e)
 		{
 			LogManager.getInstance(context, this._logUrl, this._hashSecret).logException(e);
 		}
@@ -133,7 +129,7 @@ public class LogManager
 	public boolean log(String event, Map<String, Object> payload)
 	{
 		if (payload == null)
-			payload = new HashMap<String, Object>();
+			payload = new HashMap<>();
 		
 		if (payload.containsKey(Logger.USER_ID) == false)
 		{
@@ -152,7 +148,7 @@ public class LogManager
 	{
 		e.printStackTrace();
 
-		Map<String, Object> payload = new HashMap<String, Object>();
+		Map<String, Object> payload = new HashMap<>();
 		
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		PrintStream out = new PrintStream(baos);

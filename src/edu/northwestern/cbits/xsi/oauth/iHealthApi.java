@@ -48,7 +48,7 @@ public class iHealthApi extends DefaultApi20
 
     public String getAuthorizationUrl(OAuthConfig oAuthConfig)
     {
-        StringBuffer urlBuffer = new StringBuffer();
+        StringBuilder urlBuffer = new StringBuilder();
         urlBuffer.append("https://api.ihealthlabs.com:8443/OpenApiV2/OAuthv2/userauthorization");
         urlBuffer.append("?client_id=" + Keystore.get(iHealthApi.CONSUMER_KEY));
         urlBuffer.append("&response_type=code");
@@ -65,7 +65,7 @@ public class iHealthApi extends DefaultApi20
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         String userId = prefs.getString("oauth_ihealth_user_id", "");
 
-        StringBuffer urlBuffer = new StringBuffer();
+        StringBuilder urlBuffer = new StringBuilder();
         urlBuffer.append("https://api.ihealthlabs.com:8443/openapiv2/user/" + userId + "/activity.json/");
         urlBuffer.append("?client_id=" + Keystore.get(iHealthApi.CONSUMER_KEY));
         urlBuffer.append("&client_secret=" + Keystore.get(iHealthApi.CONSUMER_SECRET));
@@ -77,7 +77,7 @@ public class iHealthApi extends DefaultApi20
 
         BufferedReader in = new BufferedReader(new InputStreamReader(new URL(urlBuffer.toString()).openStream()));
 
-        StringBuffer all = new StringBuffer();
+        StringBuilder all = new StringBuilder();
         String inputLine = null;
 
         while ((inputLine = in.readLine()) != null)
@@ -103,7 +103,7 @@ public class iHealthApi extends DefaultApi20
         {
             String refreshToken = prefs.getString("oauth_ihealth_refresh_token", "");
 
-            StringBuffer urlBuilder = new StringBuffer();
+            StringBuilder urlBuilder = new StringBuilder();
             urlBuilder.append("https://api.ihealthlabs.com:8443/OpenApiV2/OAuthv2/userauthorization");
             urlBuilder.append("?client_id=" + Keystore.get(iHealthApi.CONSUMER_KEY));
             urlBuilder.append("&client_secret=" + Keystore.get(iHealthApi.CONSUMER_SECRET));
@@ -113,7 +113,7 @@ public class iHealthApi extends DefaultApi20
 
             BufferedReader in= new BufferedReader(new InputStreamReader(new URL(urlBuilder.toString()).openStream()));
 
-            StringBuffer all = new StringBuffer();
+            StringBuilder all = new StringBuilder();
             String inputLine = null;
 
             while ((inputLine = in.readLine()) != null)
@@ -155,7 +155,7 @@ public class iHealthApi extends DefaultApi20
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         String userId = prefs.getString("oauth_ihealth_user_id", "");
 
-        StringBuffer urlBuffer = new StringBuffer();
+        StringBuilder urlBuffer = new StringBuilder();
         urlBuffer.append("https://api.ihealthlabs.com:8443/openapiv2/user/" + userId + "/weight.json/");
         urlBuffer.append("?client_id=" + Keystore.get(iHealthApi.CONSUMER_KEY));
         urlBuffer.append("&client_secret=" + Keystore.get(iHealthApi.CONSUMER_SECRET));
@@ -167,7 +167,7 @@ public class iHealthApi extends DefaultApi20
 
         BufferedReader in = new BufferedReader(new InputStreamReader(new URL(urlBuffer.toString()).openStream()));
 
-        StringBuffer all = new StringBuffer();
+        StringBuilder all = new StringBuilder();
         String inputLine = null;
 
         while ((inputLine = in.readLine()) != null)
@@ -188,7 +188,7 @@ public class iHealthApi extends DefaultApi20
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         String userId = prefs.getString("oauth_ihealth_user_id", "");
 
-        StringBuffer urlBuffer = new StringBuffer();
+        StringBuilder urlBuffer = new StringBuilder();
         urlBuffer.append("https://api.ihealthlabs.com:8443/openapiv2/user/" + userId + "/bp.json/");
         urlBuffer.append("?client_id=" + Keystore.get(iHealthApi.CONSUMER_KEY));
         urlBuffer.append("&client_secret=" + Keystore.get(iHealthApi.CONSUMER_SECRET));
@@ -200,7 +200,7 @@ public class iHealthApi extends DefaultApi20
 
         BufferedReader in = new BufferedReader(new InputStreamReader(new URL(urlBuffer.toString()).openStream()));
 
-        StringBuffer all = new StringBuffer();
+        StringBuilder all = new StringBuilder();
         String inputLine = null;
 
         while ((inputLine = in.readLine()) != null)
@@ -226,7 +226,7 @@ public class iHealthApi extends DefaultApi20
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         String userId = prefs.getString("oauth_ihealth_user_id", "");
 
-        StringBuffer urlBuffer = new StringBuffer();
+        StringBuilder urlBuffer = new StringBuilder();
         urlBuffer.append("https://api.ihealthlabs.com:8443/openapiv2/user/" + userId + "/weight.json/");
         urlBuffer.append("?client_id=" + Keystore.get(iHealthApi.CONSUMER_KEY));
         urlBuffer.append("&client_secret=" + Keystore.get(iHealthApi.CONSUMER_SECRET));
@@ -238,7 +238,7 @@ public class iHealthApi extends DefaultApi20
 
         BufferedReader in = new BufferedReader(new InputStreamReader(new URL(urlBuffer.toString()).openStream()));
 
-        StringBuffer all = new StringBuffer();
+        StringBuilder all = new StringBuilder();
         String inputLine = null;
 
         while ((inputLine = in.readLine()) != null)
@@ -256,7 +256,7 @@ public class iHealthApi extends DefaultApi20
     {
         long now = System.currentTimeMillis();
 
-        StringBuffer urlBuilder = new StringBuffer();
+        StringBuilder urlBuilder = new StringBuilder();
         urlBuilder.append("https://api.ihealthlabs.com:8443/OpenApiV2/OAuthv2/userauthorization");
         urlBuilder.append("?client_id=" + Keystore.get(iHealthApi.CONSUMER_KEY));
         urlBuilder.append("&client_secret=" + Keystore.get(iHealthApi.CONSUMER_SECRET));
@@ -266,7 +266,7 @@ public class iHealthApi extends DefaultApi20
 
         BufferedReader in= new BufferedReader(new InputStreamReader(new URL(urlBuilder.toString()).openStream()));
 
-        StringBuffer all = new StringBuffer();
+        StringBuilder all = new StringBuilder();
         String inputLine = null;
 
         while ((inputLine = in.readLine()) != null)

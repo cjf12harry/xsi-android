@@ -61,9 +61,11 @@ public class OAuthActivity extends Activity
         	final String requester = extras.getString(OAuthActivity.REQUESTER);
 
         	Class api = null;
-        	
-        	if ("fitbit".equals(requester))
-        		api = FitbitApi.class;
+
+			if ("fitbit".equals(requester))
+				api = FitbitApi.class;
+			else if ("fitbit-beta".equals(requester))
+				api = FitbitBetaApi.class;
         	else if ("github".equals(requester))
         		api = GitHubApi.class;
             else if ("jawbone".equals(requester))
@@ -118,23 +120,11 @@ public class OAuthActivity extends Activity
 
                                         me.startActivity(intent);
                                     }
-                                    catch (InstantiationException e)
+                                    catch (InstantiationException | InvocationTargetException | IllegalArgumentException | IllegalAccessException e)
                                     {
                                         LogManager.getInstance(me, logUrl, hashSecret).logException(e);
                                     }
-                                    catch (IllegalAccessException e)
-                                    {
-                                        LogManager.getInstance(me, logUrl, hashSecret).logException(e);
-                                    }
-                                    catch (IllegalArgumentException e)
-                                    {
-                                        LogManager.getInstance(me, logUrl, hashSecret).logException(e);
-                                    }
-                                    catch (InvocationTargetException e)
-                                    {
-                                        LogManager.getInstance(me, logUrl, hashSecret).logException(e);
-                                    }
-                                }
+								}
                                 else if (DefaultApi10a.class.isAssignableFrom(apiClass))
                                 {
                                     Token token = service.getRequestToken();
@@ -256,17 +246,12 @@ public class OAuthActivity extends Activity
 
                                         return;
                                     }
-                                    catch (JSONException e)
+                                    catch (JSONException | IOException e)
                                     {
                                         e.printStackTrace();
 //                                        LogManager.getInstance(me, logUrl, hashSecret).logException(e);
                                     }
-                                    catch (IOException e)
-                                    {
-                                        e.printStackTrace();
-//                                        LogManager.getInstance(me, logUrl, hashSecret).logException(e);
-                                    }
-                                }
+								}
 
                                 // Report error
                             }
@@ -293,13 +278,19 @@ public class OAuthActivity extends Activity
 	        			String consumerKey = null;
 	        			String consumerSecret = null;
 	        			String callback = null;
-	        			
-	        			if ("fitbit".equals(requester))
-	        			{
-	            			apiClass = FitbitApi.class;
-	            			consumerKey = Keystore.get(FitbitApi.CONSUMER_KEY);
-	            			consumerSecret = Keystore.get(FitbitApi.CONSUMER_SECRET);
-	        			}
+
+						if ("fitbit".equals(requester))
+						{
+							apiClass = FitbitApi.class;
+							consumerKey = Keystore.get(FitbitApi.CONSUMER_KEY);
+							consumerSecret = Keystore.get(FitbitApi.CONSUMER_SECRET);
+						}
+						if ("fitbit-beta".equals(requester))
+						{
+							apiClass = FitbitBetaApi.class;
+							consumerKey = Keystore.get(FitbitBetaApi.CONSUMER_KEY);
+							consumerSecret = Keystore.get(FitbitBetaApi.CONSUMER_SECRET);
+						}
                         else if ("twitter".equals(requester))
                         {
                             apiClass = TwitterApi.SSL.class;

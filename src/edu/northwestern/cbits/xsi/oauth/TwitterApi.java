@@ -42,12 +42,7 @@ public class TwitterApi extends org.scribe.builder.api.TwitterApi
 
             return new JSONArray(body);
         }
-        catch (JSONException e)
-        {
-            e.printStackTrace();
-        }
-
-        catch (OAuthException e)
+        catch (JSONException | OAuthException e)
         {
             e.printStackTrace();
         }

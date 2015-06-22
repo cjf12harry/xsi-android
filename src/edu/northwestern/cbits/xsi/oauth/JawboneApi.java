@@ -87,19 +87,10 @@ public class JawboneApi extends DefaultApi20
 			
 			return new JSONObject(result);		
 		} 
-		catch (ClientProtocolException e) 
+		catch (JSONException | IOException e)
 		{
 			e.printStackTrace();
-		} 
-		catch (IOException e) 
-		{
-			e.printStackTrace();
-		} 
-		catch (JSONException e) 
-		{
-			e.printStackTrace();
-		}
-		finally
+		} finally
 		{
 			androidClient.close();
 		}

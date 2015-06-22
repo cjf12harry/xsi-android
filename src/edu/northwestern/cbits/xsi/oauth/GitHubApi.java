@@ -43,7 +43,7 @@ public class GitHubApi extends DefaultApi20
 
             BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
 
-            StringBuffer all = new StringBuffer();
+            StringBuilder all = new StringBuilder();
             String inputLine = null;
 
             while ((inputLine = in.readLine()) != null)
@@ -56,21 +56,13 @@ public class GitHubApi extends DefaultApi20
             
             return new JSONArray(all.toString());
 		} 
-        catch (IOException e) 
-        {
-			e.printStackTrace();
-		} 
-        catch (JSONException e) 
+        catch (IOException | OAuthException | JSONException e)
         {
 			e.printStackTrace();
 		}
-        catch (OAuthException e)
-        {
-            e.printStackTrace();
-        }
 
 
-        return null;
+		return null;
 	}
 	
 	public static JSONObject fetch(Uri uri)
@@ -81,7 +73,7 @@ public class GitHubApi extends DefaultApi20
         	
             BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
 
-            StringBuffer all = new StringBuffer();
+            StringBuilder all = new StringBuilder();
             String inputLine = null;
 
             while ((inputLine = in.readLine()) != null)
@@ -94,19 +86,11 @@ public class GitHubApi extends DefaultApi20
 
             return new JSONObject(all.toString());
 		} 
-        catch (IOException e) 
-        {
-			e.printStackTrace();
-		} 
-        catch (JSONException e) 
+        catch (IOException | OAuthException | JSONException e)
         {
 			e.printStackTrace();
 		}
-        catch (OAuthException e)
-        {
-            e.printStackTrace();
-        }
 
-        return null;
+		return null;
 	}
 }
