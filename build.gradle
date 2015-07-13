@@ -1,6 +1,6 @@
 buildscript {
     repositories {
-        mavenCentral()
+        jcenter()
     }
 
     dependencies {
@@ -12,8 +12,7 @@ apply plugin: 'com.android.library'
 
 android {
     repositories {
-        mavenCentral()
-        maven { url "https://oss.sonatype.org/content/groups/public/" }
+        jcenter()
     }
     sourceSets {
         main {
@@ -31,9 +30,9 @@ android {
 
     dependencies {
         compile 'com.android.support:appcompat-v7:22.2.0'
-        compile 'com.facebook.android:facebook-android-sdk:3.23.1'
         compile fileTree(dir: 'libs', include: '*.jar')
         compile project(':anthracite-clients-android')
+        compile 'com.facebook.android:facebook-android-sdk:3.23.1'
     }
 
     compileSdkVersion 22
@@ -45,7 +44,4 @@ android {
     lintOptions {
         abortOnError false
     }
-}
-
-dependencies {
 }
