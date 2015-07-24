@@ -32,7 +32,8 @@ public class FoursquareApi extends Foursquare2Api
     public static final String CALLBACK_URL = "foursquare_callback_url";
 
     private static HashSet<String> _exclude = null;
-	
+
+
 	public static class Place
 	{
 		public double latitude = 0.0;
@@ -111,7 +112,12 @@ public class FoursquareApi extends Foursquare2Api
 
 		return null;
 	}
-	
+
+	public static List<Place> nearbyPlaces(Context context, double latitude, double longitude)
+    {
+        return FoursquareApi.searchPlaces(context, latitude, longitude, "");
+	}
+
 	public static List<Place> searchPlaces(Context context, double latitude, double longitude, String query)
 	{
 		ArrayList<Place> places = new ArrayList<>();
