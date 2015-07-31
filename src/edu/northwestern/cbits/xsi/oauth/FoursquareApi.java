@@ -9,6 +9,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.builder.api.Foursquare2Api;
+import org.scribe.exceptions.OAuthConnectionException;
 import org.scribe.exceptions.OAuthException;
 import org.scribe.model.OAuthRequest;
 import org.scribe.model.Response;
@@ -32,7 +33,6 @@ public class FoursquareApi extends Foursquare2Api
     public static final String CALLBACK_URL = "foursquare_callback_url";
 
     private static HashSet<String> _exclude = null;
-
 
 	public static class Place
 	{
@@ -64,15 +64,22 @@ public class FoursquareApi extends Foursquare2Api
 		final OAuthRequest request = new OAuthRequest(Verb.GET, uri.toString());
         request.addHeader("User-Agent", XSI.getUserAgent());
 
-		Response response = request.send();
-
-		try 
+		try
 		{
+			Response response = request.send();
+
 			return new JSONObject(response.getBody());
 		} 
 		catch (JSONException e) 
 		{
 			e.printStackTrace();
+		}
+		catch (OAuthConnectionException e)
+		{
+			LogManager logs = LogManager.getInstance(null, null, null);
+
+			if (logs != null)
+				logs.logException(e);
 		}
 		
 		return null;
@@ -142,38 +149,33 @@ public class FoursquareApi extends Foursquare2Api
 		try 
 		{
 			ArrayList<JSONObject> venues = new ArrayList<>();
-					
-			if (response.getJSONObject("response").has("venues"))
-			{
-				JSONArray venuesArray = response.getJSONObject("response").getJSONArray("venues");
-				
-				for (int i = 0; i < venuesArray.length(); i++)
-				{
-					venues.add(venuesArray.getJSONObject(i));
-				}
-			}
-			else if (response.getJSONObject("response").has("groups"))
-			{
-				JSONArray groups = response.getJSONObject("response").getJSONArray("groups");
-				
-				for (int i = 0; i < groups.length(); i++)
-				{
-					JSONObject group = groups.getJSONObject(i);
-					
-					if (group.has("items"))
-					{
-						JSONArray items = group.getJSONArray("items");
-						
-						for (int j = 0; j < items.length(); j++)
-						{
-							JSONObject item = items.getJSONObject(j);
-							
-							venues.add(item.getJSONObject("venue"));
+
+			if (response != null && response.has("response")) {
+				if (response.getJSONObject("response").has("venues")) {
+					JSONArray venuesArray = response.getJSONObject("response").getJSONArray("venues");
+
+					for (int i = 0; i < venuesArray.length(); i++) {
+						venues.add(venuesArray.getJSONObject(i));
+					}
+				} else if (response.getJSONObject("response").has("groups")) {
+					JSONArray groups = response.getJSONObject("response").getJSONArray("groups");
+
+					for (int i = 0; i < groups.length(); i++) {
+						JSONObject group = groups.getJSONObject(i);
+
+						if (group.has("items")) {
+							JSONArray items = group.getJSONArray("items");
+
+							for (int j = 0; j < items.length(); j++) {
+								JSONObject item = items.getJSONObject(j);
+
+								venues.add(item.getJSONObject("venue"));
+							}
 						}
 					}
 				}
 			}
-			
+
 			for (JSONObject venue : venues)
 			{
 				boolean include = true;
