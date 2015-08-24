@@ -145,8 +145,8 @@ public class FoursquareApi extends Foursquare2Api
 			for (String exclude : excluded)
 				FoursquareApi._exclude.add(exclude);
 		}
-		
-		try 
+
+		try
 		{
 			ArrayList<JSONObject> venues = new ArrayList<>();
 
@@ -220,7 +220,7 @@ public class FoursquareApi extends Foursquare2Api
 					places.add(place);
 				}
 			}
-		} 
+		}
 		catch (JSONException e) 
 		{
 			LogManager.getInstance(context, "", "").logException(e);
