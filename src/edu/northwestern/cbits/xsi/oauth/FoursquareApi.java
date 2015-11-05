@@ -263,19 +263,24 @@ public class FoursquareApi extends Foursquare2Api
 
 		try
 		{
-			if (response.getJSONObject("response").has("photos"))
+			if (response != null)
 			{
-				JSONObject photos = response.getJSONObject("response").getJSONObject("photos");
-				JSONArray items = photos.getJSONArray("items");
-				
-				if (items.length() > 0)
+				JSONObject responseObj = response.getJSONObject("response");
+
+				if (responseObj != null && responseObj.has("photos"))
 				{
-					JSONObject item = items.getJSONObject(0);
-					
-					return Uri.parse(item.getString("prefix") + "width640" + item.getString("suffix"));
+					JSONObject photos = response.getJSONObject("response").getJSONObject("photos");
+					JSONArray items = photos.getJSONArray("items");
+
+					if (items.length() > 0)
+					{
+						JSONObject item = items.getJSONObject(0);
+
+						return Uri.parse(item.getString("prefix") + "width640" + item.getString("suffix"));
+					}
 				}
 			}
-		} 
+		}
 		catch (JSONException e) 
 		{
 			LogManager.getInstance(context, "", "").logException(e);
