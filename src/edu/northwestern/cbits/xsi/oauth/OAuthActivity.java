@@ -73,7 +73,7 @@ public class OAuthActivity extends Activity
         	final String callbackUrl = extras.getString(OAuthActivity.CALLBACK_URL);
         	final String requester = extras.getString(OAuthActivity.REQUESTER);
 
-        	Class api = null;
+            Class api = null;
 
 			if ("fitbit".equals(requester))
 				api = FitbitApi.class;

@@ -82,7 +82,7 @@ public class OAuthWebActivity extends ActionBarActivity
             CookieManager.getInstance().removeAllCookie();
 
         Uri uri = this.getIntent().getData();
-        
+
         if (uri != null && uri.getScheme() != null && (uri.getScheme().toLowerCase(Locale.ENGLISH).startsWith("http") || uri.getScheme().toLowerCase(Locale.ENGLISH).startsWith("https")))
         {
         	final OAuthWebActivity me = this;

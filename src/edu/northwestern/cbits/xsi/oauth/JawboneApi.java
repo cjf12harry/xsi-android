@@ -45,7 +45,7 @@ public class JawboneApi extends DefaultApi20
 	@SuppressWarnings("deprecation")
 	public String getAuthorizationUrl(OAuthConfig arg0) 
 	{
-		return "https://jawbone.com/auth/oauth2/auth?response_type=code&client_id=" +  Keystore.get(JawboneApi.CONSUMER_KEY) + 
+		return "https://jawbone.com/auth/oauth2/auth?response_type=code&client_id=" +  Keystore.get(JawboneApi.CONSUMER_KEY) +
 			   "&scope=move_read%20basic_read&redirect_uri=" + URLEncoder.encode("https://tech.cbits.northwestern.edu/oauth/jawbone");
 	}
 	
