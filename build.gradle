@@ -4,7 +4,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.1.0'
+        classpath 'com.android.tools.build:gradle:2.1.2'
     }
 }
 
@@ -34,8 +34,8 @@ android {
         compile project(':anthracite-clients-android')
         compile 'com.facebook.android:facebook-android-sdk:3.23.1'
 //        compile 'com.google.android.gms:play-services:8.4.0'
-        compile 'com.google.android.gms:play-services-fitness:9.0.0'
-        compile 'com.google.android.gms:play-services-auth:9.0.0'
+        compile 'com.google.android.gms:play-services-fitness:9.0.2'
+        compile 'com.google.android.gms:play-services-auth:9.0.2'
     }
 
     compileSdkVersion 23
