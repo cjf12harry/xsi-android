@@ -282,13 +282,12 @@ public class OAuthWebActivity extends ActionBarActivity
 									e.printStackTrace();
 								}
 							}
-        				};
+					        				};
         				
         				Thread t = new Thread(r);
         				t.start();
         				
         				return true;
-						
         			}
         			else if (url.toLowerCase(Locale.getDefault()).startsWith("http://tech.cbits.northwestern.edu/oauth"))
         				oauth = true;

@@ -37,6 +37,7 @@ import android.content.SharedPreferences.Editor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.customtabs.CustomTabsIntent;
 import android.util.Base64;
 
 public class OAuthActivity extends Activity
@@ -77,8 +78,6 @@ public class OAuthActivity extends Activity
 
 			if ("fitbit".equals(requester))
 				api = FitbitApi.class;
-			else if ("fitbit-beta".equals(requester))
-				api = FitbitBetaApi.class;
         	else if ("github".equals(requester))
         		api = GitHubApi.class;
             else if ("jawbone".equals(requester))
@@ -128,14 +127,22 @@ public class OAuthActivity extends Activity
 
                                         String url = api.getAuthorizationUrl(config);
 
-                                        Intent intent = new Intent(me, OAuthWebActivity.class);
-                                        intent.putExtra(OAuthActivity.LOG_URL, logUrl);
-                                        intent.putExtra(OAuthActivity.HASH_SECRET, hashSecret);
+                                        if (FitbitApi.class == apiClass) {
+                                            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+                                            CustomTabsIntent customTabsIntent = builder.build();
+                                            customTabsIntent.intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 
-                                        intent.setData(Uri.parse(url));
-                                        intent.putExtras(extras);
+                                            customTabsIntent.launchUrl(me, Uri.parse(url));
+                                        } else {
+                                            Intent intent = new Intent(me, OAuthWebActivity.class);
+                                            intent.putExtra(OAuthActivity.LOG_URL, logUrl);
+                                            intent.putExtra(OAuthActivity.HASH_SECRET, hashSecret);
 
-                                        me.startActivity(intent);
+                                            intent.setData(Uri.parse(url));
+                                            intent.putExtras(extras);
+
+                                            me.startActivity(intent);
+                                        }
                                     }
                                     catch (InstantiationException | InvocationTargetException | IllegalArgumentException | IllegalAccessException e)
                                     {
@@ -146,12 +153,12 @@ public class OAuthActivity extends Activity
                                 {
                                     Token token = service.getRequestToken();
 
+                                    String url = service.getAuthorizationUrl(token);
+
                                     Editor e = prefs.edit();
                                     e.putString("request_token_" + requester, token.getToken());
                                     e.putString("request_secret_" + requester, token.getSecret());
                                     e.commit();
-
-                                    String url = service.getAuthorizationUrl(token);
 
                                     Intent intent = new Intent(me, OAuthWebActivity.class);
                                     intent.putExtra(OAuthActivity.LOG_URL, logUrl);
@@ -304,12 +311,6 @@ public class OAuthActivity extends Activity
 							consumerKey = Keystore.get(FitbitApi.CONSUMER_KEY);
 							consumerSecret = Keystore.get(FitbitApi.CONSUMER_SECRET);
 						}
-						if ("fitbit-beta".equals(requester))
-						{
-							apiClass = FitbitBetaApi.class;
-							consumerKey = Keystore.get(FitbitBetaApi.CONSUMER_KEY);
-							consumerSecret = Keystore.get(FitbitBetaApi.CONSUMER_SECRET);
-						}
                         else if ("twitter".equals(requester))
                         {
                             apiClass = TwitterApi.SSL.class;
@@ -376,9 +377,9 @@ public class OAuthActivity extends Activity
                                         {
                                             if ("fitbit-beta".equals(requester))
                                             {
-                                                final FitbitBetaApi api = new FitbitBetaApi();
+                                                final FitbitApi api = new FitbitApi();
 
-                                                OAuthConfig config = new OAuthConfig(Keystore.get(FitbitBetaApi.CONSUMER_KEY), Keystore.get(FitbitBetaApi.CONSUMER_SECRET), finalCallback, SignatureType.Header, null, null);
+                                                OAuthConfig config = new OAuthConfig(Keystore.get(FitbitApi.CONSUMER_KEY), Keystore.get(FitbitApi.CONSUMER_SECRET), finalCallback, SignatureType.Header, null, null);
 
                                                 OAuth20ServiceImpl customService = new OAuth20ServiceImpl(api, config)
                                                 {
@@ -386,13 +387,13 @@ public class OAuthActivity extends Activity
                                                     {
                                                         OAuthRequest request = new OAuthRequest(Verb.POST, api.getAccessTokenEndpoint());
 
-                                                        request.addQuerystringParameter(OAuthConstants.CLIENT_ID, Keystore.get(FitbitBetaApi.CONSUMER_KEY));
-                                                        request.addQuerystringParameter(OAuthConstants.CLIENT_SECRET, Keystore.get(FitbitBetaApi.CONSUMER_SECRET));
+                                                        request.addQuerystringParameter(OAuthConstants.CLIENT_ID, Keystore.get(FitbitApi.CONSUMER_KEY));
+                                                        request.addQuerystringParameter(OAuthConstants.CLIENT_SECRET, Keystore.get(FitbitApi.CONSUMER_SECRET));
                                                         request.addQuerystringParameter(OAuthConstants.CODE, verifier.getValue());
                                                         request.addQuerystringParameter("grant_type", "authorization_code");
-                                                        request.addQuerystringParameter(OAuthConstants.REDIRECT_URI, Keystore.get(FitbitBetaApi.CALLBACK_URL));
+                                                        request.addQuerystringParameter(OAuthConstants.REDIRECT_URI, Keystore.get(FitbitApi.CALLBACK_URL));
 
-                                                        String basicAuth = Keystore.get(FitbitBetaApi.OAUTH2_CLIENT_ID) + ":" + Keystore.get(FitbitBetaApi.CONSUMER_SECRET);
+                                                        String basicAuth = Keystore.get(FitbitApi.OAUTH2_CLIENT_ID) + ":" + Keystore.get(FitbitApi.CONSUMER_SECRET);
                                                         request.addHeader("Authorization", "Basic " + Base64.encodeToString(basicAuth.getBytes(Charset.forName("UTF-8")), 0));
 
                                                         Response response = request.send();
