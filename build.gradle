@@ -4,7 +4,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.0'
+        classpath 'com.android.tools.build:gradle:2.2.1'
     }
 }
 
@@ -45,12 +45,12 @@ android {
         compile 'com.github.scribejava:scribejava-core:3.0.0'
         compile 'commons-codec:commons-codec:1.10'
         compile 'com.android.support:customtabs:24.2.1'
-        compile 'com.google.android.gms:play-services-fitness:9.6.0'
-        compile 'com.google.android.gms:play-services-auth:9.6.0'
+        compile 'com.google.android.gms:play-services-fitness:9.6.1'
+        compile 'com.google.android.gms:play-services-auth:9.6.1'
     }
 
     compileSdkVersion 24
-    buildToolsVersion '24.0.2'
+    buildToolsVersion '24.0.3'
 
     useLibrary 'org.apache.http.legacy'
 
