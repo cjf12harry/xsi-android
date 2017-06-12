@@ -163,7 +163,7 @@ public class FitbitApi extends DefaultApi20
             writer.close();
             os.close();
 
-            conn.connect();;
+            conn.connect();
 
             InputStream in = null;
 
@@ -193,7 +193,7 @@ public class FitbitApi extends DefaultApi20
             e.putString(accessKey, payload.getString("access_token"));
             e.putString(refreshKey, payload.getString("refresh_token"));
             e.putLong(expiresKey, System.currentTimeMillis() + (payload.getLong("expires_in") * 1000));
-            e.commit();
+            e.apply();
 
             return true;
         } catch (IOException | JSONException e) {

@@ -8,8 +8,8 @@
 	<string name="auth_success_message">You have successfully connected the app to your online account.</string>
 	<string name="auth_success_close">Continue&#8230;</string>
 	
-	<string name="uri_foursquare_explore" formatted="false">https://api.foursquare.com/v2/venues/explore?client_id=%s&amp;client_secret=%s&amp;v=20130815&amp;ll=%f,%f&amp;sortByDistance=1&amp;query=%s</string>
-	<string name="uri_foursquare_venue_photo" formatted="false">https://api.foursquare.com/v2/venues/%s/photos?client_id=%s&amp;client_secret=%s&amp;v=20130815</string>
+	<string name="uri_foursquare_explore">https://api.foursquare.com/v2/venues/explore?client_id=%1$s&amp;client_secret=%2$s&amp;v=20130815&amp;ll=%3$f,%4$f&amp;sortByDistance=1&amp;query=%5$s</string>
+	<string name="uri_foursquare_venue_photo">https://api.foursquare.com/v2/venues/%1$s/photos?client_id=%2$s&amp;client_secret=%3$s&amp;v=20130815</string>
 
     <string name="title_facebook_success">Facebook Login Successful!</string>
     <string name="message_facebook_success">You have successfully logged in to Facebook and can now fetch data from the service.</string>

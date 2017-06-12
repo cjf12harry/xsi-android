@@ -158,7 +158,7 @@ public class OAuthActivity extends Activity
                                     Editor e = prefs.edit();
                                     e.putString("request_token_" + requester, token.getToken());
                                     e.putString("request_secret_" + requester, token.getSecret());
-                                    e.commit();
+                                    e.apply();
 
                                     Intent intent = new Intent(me, OAuthWebActivity.class);
                                     intent.putExtra(OAuthActivity.LOG_URL, logUrl);
@@ -208,7 +208,7 @@ public class OAuthActivity extends Activity
 		                	e.putString("oauth_" + requester + "_secret", "");
 		                	e.putString("oauth_" + requester + "_token", access);
 		                	
-		                	e.commit();
+		                	e.apply();
 		                	
 		                	me.runOnUiThread(new Runnable()
 		                	{
@@ -231,7 +231,7 @@ public class OAuthActivity extends Activity
 		                	e.putString("oauth_" + requester + "_secret", "");
 		                	e.putString("oauth_" + requester + "_token", access);
 		                	
-		                	e.commit();
+		                	e.apply();
 		                	
 		                	me.runOnUiThread(new Runnable()
 		                	{
@@ -419,7 +419,7 @@ public class OAuthActivity extends Activity
                                                 e.putString("oauth_" + requester + "_access_token", accessToken.getToken());
                                                 e.putString("oauth_" + requester + "_refresh_token", accessToken.getSecret());
                                                 e.putLong("oauth_" + requester + "_expires", System.currentTimeMillis() + ((60 * 60) * 1000));
-                                                e.commit();
+                                                e.apply();
 
                                                 me.runOnUiThread(new Runnable() {
                                                     public void run() {
@@ -435,7 +435,7 @@ public class OAuthActivity extends Activity
                                                 e.putString("oauth_" + requester + "_secret", accessToken.getSecret());
                                                 e.putString("oauth_" + requester + "_token", accessToken.getToken());
 
-                                                e.commit();
+                                                e.apply();
 
                                                 me.runOnUiThread(new Runnable() {
                                                     public void run() {
@@ -467,7 +467,7 @@ public class OAuthActivity extends Activity
 						                	e.putString("oauth_" + requester + "_secret", accessToken.getSecret());
 						                	e.putString("oauth_" + requester + "_token", accessToken.getToken());
 						                	
-						                	e.commit();
+						                	e.apply();
 						                	
 						                	me.runOnUiThread(new Runnable()
 						                	{

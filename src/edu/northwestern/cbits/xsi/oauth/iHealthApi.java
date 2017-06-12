@@ -48,14 +48,13 @@ public class iHealthApi extends DefaultApi20
 
     public String getAuthorizationUrl(OAuthConfig oAuthConfig)
     {
-        StringBuilder urlBuffer = new StringBuilder();
-        urlBuffer.append("https://api.ihealthlabs.com:8443/OpenApiV2/OAuthv2/userauthorization");
-        urlBuffer.append("?client_id=" + Keystore.get(iHealthApi.CONSUMER_KEY));
-        urlBuffer.append("&response_type=code");
-        urlBuffer.append("&redirect_uri=" + Keystore.get(iHealthApi.REDIRECT_URL));
-        urlBuffer.append("&APIName=OpenApiBG+OpenApiBP+OpenApiActivity+OpenApiSleep+OpenApiSpO2+OpenApiWeight");
+        String urlBuffer = "https://api.ihealthlabs.com:8443/OpenApiV2/OAuthv2/userauthorization" +
+                "?client_id=" + Keystore.get(iHealthApi.CONSUMER_KEY) +
+                "&response_type=code" +
+                "&redirect_uri=" + Keystore.get(iHealthApi.REDIRECT_URL) +
+                "&APIName=OpenApiBG+OpenApiBP+OpenApiActivity+OpenApiSleep+OpenApiSpO2+OpenApiWeight";
 
-        return urlBuffer.toString();
+        return urlBuffer;
     }
 
     public static JSONObject fetchActivity(Context context, long start, long end) throws IOException, JSONException
@@ -65,17 +64,16 @@ public class iHealthApi extends DefaultApi20
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         String userId = prefs.getString("oauth_ihealth_user_id", "");
 
-        StringBuilder urlBuffer = new StringBuilder();
-        urlBuffer.append("https://api.ihealthlabs.com:8443/openapiv2/user/" + userId + "/activity.json/");
-        urlBuffer.append("?client_id=" + Keystore.get(iHealthApi.CONSUMER_KEY));
-        urlBuffer.append("&client_secret=" + Keystore.get(iHealthApi.CONSUMER_SECRET));
-        urlBuffer.append("&sc=" + Keystore.get(iHealthApi.ACTIVITY_SC));
-        urlBuffer.append("&sv=" + Keystore.get(iHealthApi.ACTIVITY_SV));
-        urlBuffer.append("&access_token=" + Keystore.get(iHealthApi.USER_TOKEN));
-        urlBuffer.append("&start_time=" + start);
-        urlBuffer.append("&end_time=" + end);
+        String urlBuffer = ("https://api.ihealthlabs.com:8443/openapiv2/user/" + userId + "/activity.json/") +
+                "?client_id=" + Keystore.get(iHealthApi.CONSUMER_KEY) +
+                "&client_secret=" + Keystore.get(iHealthApi.CONSUMER_SECRET) +
+                "&sc=" + Keystore.get(iHealthApi.ACTIVITY_SC) +
+                "&sv=" + Keystore.get(iHealthApi.ACTIVITY_SV) +
+                "&access_token=" + Keystore.get(iHealthApi.USER_TOKEN) +
+                "&start_time=" + start +
+                "&end_time=" + end;
 
-        BufferedReader in = new BufferedReader(new InputStreamReader(new URL(urlBuffer.toString()).openStream()));
+        BufferedReader in = new BufferedReader(new InputStreamReader(new URL(urlBuffer).openStream()));
 
         StringBuilder all = new StringBuilder();
         String inputLine = null;
@@ -103,15 +101,14 @@ public class iHealthApi extends DefaultApi20
         {
             String refreshToken = prefs.getString("oauth_ihealth_refresh_token", "");
 
-            StringBuilder urlBuilder = new StringBuilder();
-            urlBuilder.append("https://api.ihealthlabs.com:8443/OpenApiV2/OAuthv2/userauthorization");
-            urlBuilder.append("?client_id=" + Keystore.get(iHealthApi.CONSUMER_KEY));
-            urlBuilder.append("&client_secret=" + Keystore.get(iHealthApi.CONSUMER_SECRET));
-            urlBuilder.append("&redirect_uri=" + Keystore.get(iHealthApi.REDIRECT_URL));
-            urlBuilder.append("&response_type=refresh_token");
-            urlBuilder.append("&refresh_token=" + refreshToken);
+            String urlBuilder = "https://api.ihealthlabs.com:8443/OpenApiV2/OAuthv2/userauthorization" +
+                    "?client_id=" + Keystore.get(iHealthApi.CONSUMER_KEY) +
+                    "&client_secret=" + Keystore.get(iHealthApi.CONSUMER_SECRET) +
+                    "&redirect_uri=" + Keystore.get(iHealthApi.REDIRECT_URL) +
+                    "&response_type=refresh_token" +
+                    "&refresh_token=" + refreshToken;
 
-            BufferedReader in= new BufferedReader(new InputStreamReader(new URL(urlBuilder.toString()).openStream()));
+            BufferedReader in= new BufferedReader(new InputStreamReader(new URL(urlBuilder).openStream()));
 
             StringBuilder all = new StringBuilder();
             String inputLine = null;
@@ -139,7 +136,7 @@ public class iHealthApi extends DefaultApi20
             e.putString("oauth_ihealth_user_id", userId);
             e.putLong("oauth_ihealth_expires", expires);
 
-            e.commit();
+            e.apply();
         }
     }
 
@@ -155,17 +152,16 @@ public class iHealthApi extends DefaultApi20
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         String userId = prefs.getString("oauth_ihealth_user_id", "");
 
-        StringBuilder urlBuffer = new StringBuilder();
-        urlBuffer.append("https://api.ihealthlabs.com:8443/openapiv2/user/" + userId + "/weight.json/");
-        urlBuffer.append("?client_id=" + Keystore.get(iHealthApi.CONSUMER_KEY));
-        urlBuffer.append("&client_secret=" + Keystore.get(iHealthApi.CONSUMER_SECRET));
-        urlBuffer.append("&sc=" + Keystore.get(iHealthApi.WEIGHT_SC));
-        urlBuffer.append("&sv=" + Keystore.get(iHealthApi.WEIGHT_SV));
-        urlBuffer.append("&access_token=" + Keystore.get(iHealthApi.USER_TOKEN));
-        urlBuffer.append("&start_time=" + start);
-        urlBuffer.append("&end_time=" + end);
+        String urlBuffer = ("https://api.ihealthlabs.com:8443/openapiv2/user/" + userId + "/weight.json/") +
+                "?client_id=" + Keystore.get(iHealthApi.CONSUMER_KEY) +
+                "&client_secret=" + Keystore.get(iHealthApi.CONSUMER_SECRET) +
+                "&sc=" + Keystore.get(iHealthApi.WEIGHT_SC) +
+                "&sv=" + Keystore.get(iHealthApi.WEIGHT_SV) +
+                "&access_token=" + Keystore.get(iHealthApi.USER_TOKEN) +
+                "&start_time=" + start +
+                "&end_time=" + end;
 
-        BufferedReader in = new BufferedReader(new InputStreamReader(new URL(urlBuffer.toString()).openStream()));
+        BufferedReader in = new BufferedReader(new InputStreamReader(new URL(urlBuffer).openStream()));
 
         StringBuilder all = new StringBuilder();
         String inputLine = null;
@@ -188,17 +184,16 @@ public class iHealthApi extends DefaultApi20
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         String userId = prefs.getString("oauth_ihealth_user_id", "");
 
-        StringBuilder urlBuffer = new StringBuilder();
-        urlBuffer.append("https://api.ihealthlabs.com:8443/openapiv2/user/" + userId + "/bp.json/");
-        urlBuffer.append("?client_id=" + Keystore.get(iHealthApi.CONSUMER_KEY));
-        urlBuffer.append("&client_secret=" + Keystore.get(iHealthApi.CONSUMER_SECRET));
-        urlBuffer.append("&sc=" + Keystore.get(iHealthApi.PRESSURE_SC));
-        urlBuffer.append("&sv=" + Keystore.get(iHealthApi.PRESSURE_SV));
-        urlBuffer.append("&access_token=" + Keystore.get(iHealthApi.USER_TOKEN));
-        urlBuffer.append("&start_time=" + start);
-        urlBuffer.append("&end_time=" + end);
+        String urlBuffer = ("https://api.ihealthlabs.com:8443/openapiv2/user/" + userId + "/bp.json/") +
+                "?client_id=" + Keystore.get(iHealthApi.CONSUMER_KEY) +
+                "&client_secret=" + Keystore.get(iHealthApi.CONSUMER_SECRET) +
+                "&sc=" + Keystore.get(iHealthApi.PRESSURE_SC) +
+                "&sv=" + Keystore.get(iHealthApi.PRESSURE_SV) +
+                "&access_token=" + Keystore.get(iHealthApi.USER_TOKEN) +
+                "&start_time=" + start +
+                "&end_time=" + end;
 
-        BufferedReader in = new BufferedReader(new InputStreamReader(new URL(urlBuffer.toString()).openStream()));
+        BufferedReader in = new BufferedReader(new InputStreamReader(new URL(urlBuffer).openStream()));
 
         StringBuilder all = new StringBuilder();
         String inputLine = null;
@@ -226,17 +221,16 @@ public class iHealthApi extends DefaultApi20
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         String userId = prefs.getString("oauth_ihealth_user_id", "");
 
-        StringBuilder urlBuffer = new StringBuilder();
-        urlBuffer.append("https://api.ihealthlabs.com:8443/openapiv2/user/" + userId + "/weight.json/");
-        urlBuffer.append("?client_id=" + Keystore.get(iHealthApi.CONSUMER_KEY));
-        urlBuffer.append("&client_secret=" + Keystore.get(iHealthApi.CONSUMER_SECRET));
-        urlBuffer.append("&sc=" + Keystore.get(iHealthApi.GLUCOSE_SC));
-        urlBuffer.append("&sv=" + Keystore.get(iHealthApi.GLUCOSE_SV));
-        urlBuffer.append("&access_token=" + Keystore.get(iHealthApi.USER_TOKEN));
-        urlBuffer.append("&start_time=" + start);
-        urlBuffer.append("&end_time=" + end);
+        String urlBuffer = ("https://api.ihealthlabs.com:8443/openapiv2/user/" + userId + "/weight.json/") +
+                "?client_id=" + Keystore.get(iHealthApi.CONSUMER_KEY) +
+                "&client_secret=" + Keystore.get(iHealthApi.CONSUMER_SECRET) +
+                "&sc=" + Keystore.get(iHealthApi.GLUCOSE_SC) +
+                "&sv=" + Keystore.get(iHealthApi.GLUCOSE_SV) +
+                "&access_token=" + Keystore.get(iHealthApi.USER_TOKEN) +
+                "&start_time=" + start +
+                "&end_time=" + end;
 
-        BufferedReader in = new BufferedReader(new InputStreamReader(new URL(urlBuffer.toString()).openStream()));
+        BufferedReader in = new BufferedReader(new InputStreamReader(new URL(urlBuffer).openStream()));
 
         StringBuilder all = new StringBuilder();
         String inputLine = null;
@@ -256,15 +250,14 @@ public class iHealthApi extends DefaultApi20
     {
         long now = System.currentTimeMillis();
 
-        StringBuilder urlBuilder = new StringBuilder();
-        urlBuilder.append("https://api.ihealthlabs.com:8443/OpenApiV2/OAuthv2/userauthorization");
-        urlBuilder.append("?client_id=" + Keystore.get(iHealthApi.CONSUMER_KEY));
-        urlBuilder.append("&client_secret=" + Keystore.get(iHealthApi.CONSUMER_SECRET));
-        urlBuilder.append("&grant_type=authorization_code");
-        urlBuilder.append("&redirect_uri=" + Keystore.get(iHealthApi.REDIRECT_URL));
-        urlBuilder.append("&code=" + code);
+        String urlBuilder = "https://api.ihealthlabs.com:8443/OpenApiV2/OAuthv2/userauthorization" +
+                "?client_id=" + Keystore.get(iHealthApi.CONSUMER_KEY) +
+                "&client_secret=" + Keystore.get(iHealthApi.CONSUMER_SECRET) +
+                "&grant_type=authorization_code" +
+                "&redirect_uri=" + Keystore.get(iHealthApi.REDIRECT_URL) +
+                "&code=" + code;
 
-        BufferedReader in= new BufferedReader(new InputStreamReader(new URL(urlBuilder.toString()).openStream()));
+        BufferedReader in= new BufferedReader(new InputStreamReader(new URL(urlBuilder).openStream()));
 
         StringBuilder all = new StringBuilder();
         String inputLine = null;
@@ -294,6 +287,6 @@ public class iHealthApi extends DefaultApi20
         e.putString("oauth_ihealth_user_id", userId);
         e.putLong("oauth_ihealth_expires", expires);
 
-        e.commit();
+        e.apply();
     }
 }

@@ -1,6 +1,7 @@
 package edu.northwestern.cbits.xsi.oauth;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
@@ -141,9 +142,8 @@ public class FoursquareApi extends Foursquare2Api
 			FoursquareApi._exclude = new HashSet<>();
 			
 			String[] excluded = context.getResources().getStringArray(R.array.foursquare_excluded_categories);
-			
-			for (String exclude : excluded)
-				FoursquareApi._exclude.add(exclude);
+
+			Collections.addAll(FoursquareApi._exclude, excluded);
 		}
 
 		try

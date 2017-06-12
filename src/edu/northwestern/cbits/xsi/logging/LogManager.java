@@ -85,15 +85,16 @@ public class LogManager
 			AccountManager manager = (AccountManager) this._context.getSystemService(Context.ACCOUNT_SERVICE);
 			Account[] list = manager.getAccountsByType("com.google");
 
-			if (list.length == 0)
+			if (list.length == 0) {
 				list = manager.getAccounts();
+			}
 
 			if (list.length > 0)
 				userId = list[0].name;
 
 			Editor e = prefs.edit();
 			e.putString("config_user_id", userId);
-			e.commit();
+			e.apply();
 		}
 		
 		return userId;

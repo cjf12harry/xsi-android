@@ -41,7 +41,7 @@ public class FacebookLoginActivity extends ActionBarActivity
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         Editor e = prefs.edit();
         e.remove(FacebookApi.TOKEN);
-        e.commit();
+        e.apply();
 
         final FacebookLoginActivity me = this;
 
@@ -114,7 +114,7 @@ public class FacebookLoginActivity extends ActionBarActivity
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
             Editor e = prefs.edit();
             e.putString(FacebookApi.TOKEN, token);
-            e.commit();
+            e.apply();
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
