@@ -2,18 +2,19 @@ package edu.northwestern.cbits.xsi.facebook;
 
 import android.content.Context;
 
-import com.facebook.AccessToken;
-import com.facebook.HttpMethod;
-import com.facebook.Request;
-import com.facebook.Response;
-import com.facebook.Session;
-import com.facebook.SessionState;
-import com.facebook.model.GraphUser;
+// import com.facebook.AccessToken;
+// import com.facebook.HttpMethod;
+// import com.facebook.Request;
+// import com.facebook.Response;
+// import com.facebook.Session;
+// import com.facebook.SessionState;
+// import com.facebook.model.GraphUser;
 
 import java.util.List;
 
 public class FacebookApi
 {
+/*
     public static final String TOKEN = "facebook_auth_token";
 
     public static abstract class OnFriendsFetchedCallback
@@ -64,4 +65,5 @@ public class FacebookApi
             request.executeAsync();
         }
     }
+    */
 }
