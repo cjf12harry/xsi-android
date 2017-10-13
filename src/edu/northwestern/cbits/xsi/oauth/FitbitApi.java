@@ -130,8 +130,15 @@ public class FitbitApi extends DefaultApi20
             scope += "weight";
         }
 
-        String url =  "https://www.fitbit.com/oauth2/authorize?response_type=code&client_id=" + Keystore.get(FitbitApi.OAUTH2_CLIENT_ID) +
-                "&redirect_uri=" + URLEncoder.encode(Keystore.get(FitbitApi.CALLBACK_URL)) +
+        if (Keystore.get(FitbitApi.CALLBACK_URL) != null) {
+            String url = "https://www.fitbit.com/oauth2/authorize?response_type=code&client_id=" + Keystore.get(FitbitApi.OAUTH2_CLIENT_ID) +
+                    "&redirect_uri=" + URLEncoder.encode(Keystore.get(FitbitApi.CALLBACK_URL)) +
+                    "&scope=" + scope;
+
+            return url;
+        }
+
+        String url = "https://www.fitbit.com/oauth2/authorize?response_type=code&client_id=" + Keystore.get(FitbitApi.OAUTH2_CLIENT_ID) +
                 "&scope=" + scope;
 
         return url;
