@@ -42,7 +42,7 @@ android {
         compile 'com.android.support:appcompat-v7:26.1.0'
         compile fileTree(dir: 'libs', include: '*.jar')
         compile project(':anthracite-clients-android')
-        compile 'com.facebook.android:facebook-android-sdk:4.26.0'
+        compile 'com.facebook.android:facebook-android-sdk:3.23.1'
         compile 'com.github.scribejava:scribejava-apis:3.0.0'
         compile 'com.github.scribejava:scribejava-core:3.0.0'
         compile 'commons-codec:commons-codec:1.10'
