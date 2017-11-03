@@ -41,6 +41,7 @@ android {
 
     dependencies {
         api 'com.android.support:appcompat-v7:26.1.0'
+        api fileTree(dir: 'libs', include: '*.jar')
         api project(':anthracite-clients-android')
         api 'com.facebook.android:facebook-android-sdk:3.23.1'
         api 'com.github.scribejava:scribejava-apis:3.0.0'
