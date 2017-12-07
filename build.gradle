@@ -5,7 +5,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.0'
+        classpath 'com.android.tools.build:gradle:3.0.1'
     }
 }
 
@@ -31,8 +31,8 @@ android {
     }
 
     defaultConfig {
-        versionCode 10003
-        versionName "1.0.3"
+        versionCode 10004
+        versionName "1.0.4"
         minSdkVersion 15
         targetSdkVersion 27
         compileSdkVersion 27
@@ -40,16 +40,16 @@ android {
     }
 
     dependencies {
-        api 'com.android.support:appcompat-v7:27.0.0'
+        api 'com.android.support:appcompat-v7:27.0.2'
         api fileTree(dir: 'libs', include: '*.jar')
         api project(':anthracite-clients-android')
         api 'com.facebook.android:facebook-android-sdk:3.23.1'
         api 'com.github.scribejava:scribejava-apis:3.0.0'
         api 'com.github.scribejava:scribejava-core:3.0.0'
         api 'commons-codec:commons-codec:1.10'
-        api 'com.android.support:customtabs:27.0.0'
-        api 'com.google.android.gms:play-services-fitness:11.4.2'
-        api 'com.google.android.gms:play-services-auth:11.4.2'
+        api 'com.android.support:customtabs:27.0.2'
+        api 'com.google.android.gms:play-services-fitness:11.6.2'
+        api 'com.google.android.gms:play-services-auth:11.6.2'
     }
 
 
