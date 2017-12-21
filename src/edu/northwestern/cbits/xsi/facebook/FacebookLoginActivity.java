@@ -18,6 +18,7 @@ import edu.northwestern.cbits.xsi.R;
 
 public class FacebookLoginActivity extends AppCompatActivity
 {
+/*
     public static final String APP_ID = "facebook_app_id";
 
     private boolean _inited = false;
@@ -161,4 +162,5 @@ public class FacebookLoginActivity extends AppCompatActivity
             builder.create().show();
         }
     }
+    */
 }
