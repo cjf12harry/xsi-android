@@ -9,8 +9,6 @@ before_install:
   - export PATH=$GRADLE_HOME/bin:$PATH
   - yes | sdkmanager "platforms;android-27"
   - ( sleep 5 && while [ 1 ]; do sleep 1; echo y; done ) | android update sdk -a --no-ui --filter tool,platform-tool,build-tools-27.0.2
-  - git clone https://github.com/cbitstech/anthracite-clients-android.git
-  - mv anthracite-clients-android ..
 
 script:
   - gradle assembleDebug
