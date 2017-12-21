@@ -1,11 +1,18 @@
 package edu.northwestern.cbits.xsi.facebook;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 
-// import com.facebook.Session;
-// import com.facebook.SessionDefaultAudience;
-// import com.facebook.SessionLoginBehavior;
-// import com.facebook.SessionState;
+import com.facebook.Session;
+import com.facebook.SessionDefaultAudience;
+import com.facebook.SessionLoginBehavior;
+import com.facebook.SessionState;
 
 import edu.northwestern.cbits.xsi.R;
 
