@@ -32,25 +32,25 @@ android {
 
     defaultConfig {
 
-        versionCode 10004
-        versionName "1.0.4"
+        versionCode 10005
+        versionName "1.0.5"
         minSdkVersion 15
         targetSdkVersion 27
         compileSdkVersion 27
-    	buildToolsVersion '27.0.2'
+    	buildToolsVersion '27.0.3'
     }
 
     dependencies {
-        api 'com.android.support:appcompat-v7:27.0.2'
+        api 'com.android.support:appcompat-v7:27.1.0'
         api fileTree(dir: 'libs', include: '*.jar')
         api project(':anthracite-clients-android')
 //        api 'com.facebook.android:facebook-android-sdk:4.26.0'
         api 'com.github.scribejava:scribejava-apis:3.0.0'
         api 'com.github.scribejava:scribejava-core:3.0.0'
         api 'commons-codec:commons-codec:1.10'
-        api 'com.android.support:customtabs:27.0.2'
-        api 'com.google.android.gms:play-services-fitness:11.6.2'
-        api 'com.google.android.gms:play-services-auth:11.6.2'
+        api 'com.android.support:customtabs:27.1.0'
+        api 'com.google.android.gms:play-services-fitness:11.8.0'
+        api 'com.google.android.gms:play-services-auth:11.8.0'
     }
 
     useLibrary 'org.apache.http.legacy'
