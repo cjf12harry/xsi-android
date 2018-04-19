@@ -1,3 +1,5 @@
+/* Copyright © 2018 by Northwestern University. All Rights Reserved. */
+
 package edu.northwestern.cbits.xsi.logging;
 
 import java.io.ByteArrayOutputStream;

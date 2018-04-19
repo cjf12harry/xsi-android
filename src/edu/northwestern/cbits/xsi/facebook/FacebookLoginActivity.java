@@ -1,3 +1,5 @@
+/* Copyright © 2018 by Northwestern University. All Rights Reserved. */
+
 package edu.northwestern.cbits.xsi.facebook;
 
 import android.support.v7.app.AppCompatActivity;
