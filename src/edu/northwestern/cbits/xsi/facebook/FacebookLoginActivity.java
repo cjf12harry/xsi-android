@@ -1,13 +1,8 @@
+/* Copyright © 2018 by Northwestern University. All Rights Reserved. */
+
 package edu.northwestern.cbits.xsi.facebook;
 
 import android.support.v7.app.AppCompatActivity;
-
-// import com.facebook.Session;
-// import com.facebook.SessionDefaultAudience;
-// import com.facebook.SessionLoginBehavior;
-// import com.facebook.SessionState;
-
-import edu.northwestern.cbits.xsi.R;
 
 public class FacebookLoginActivity extends AppCompatActivity
 {
